@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "calm",
-    "slug": "calm",
+    "name": "life360",
+    "slug": "life360",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "calm",
+    "scheme": "life360",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -38,7 +38,8 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-tracking-transparency"
     ],
     "experiments": {
       "typedRoutes": true,
