@@ -20,13 +20,11 @@ export default function OnboardingItem({ item }: OnboardingItemProps) {
         resizeMode="cover"
       />
 
-      {/* Gradient Overlay for Text Readability */}
       <LinearGradient
         colors={['transparent', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.9)']}
         className="absolute bottom-0 left-0 right-0 h-[60%]"
       />
       
-      {/* Content Area - Positioning text exactly where it is in screenshots */}
       <View className="flex-1 justify-end pb-60 px-6">
         <Text className="text-white text-center text-2xl font-bold leading-8">
           {item.title}

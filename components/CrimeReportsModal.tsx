@@ -61,19 +61,16 @@ export const CrimeReportsModal = ({ visible, onClose }: Props) => {
                     </View>
                 </SafeAreaView>
 
-                {/* 2. Map View */}
                 <View className="flex-1 relative">
                     <MapView
                         provider={PROVIDER_DEFAULT}
                         style={{ width: '100%', height: '100%' }}
                         initialRegion={REGION}
                     >
-                        {/* User Avatar Marker (Mock) */}
                         <Marker coordinate={REGION}>
                             <View className="items-center justify-center">
                                 <View className="w-24 h-24 bg-[#7762F0]/20 rounded-full border border-[#7762F0]/40 items-center justify-center">
                                     <View className="w-14 h-14 rounded-full border-2 border-white overflow-hidden shadow-lg">
-                                        {/* Use Image here, mocking with color */}
                                         <View className="w-full h-full bg-orange-300" />
                                     </View>
                                 </View>
@@ -82,7 +79,6 @@ export const CrimeReportsModal = ({ visible, onClose }: Props) => {
                         </Marker>
                     </MapView>
 
-                    {/* Floating Map Buttons */}
                     <View className="absolute bottom-[35%] right-4 gap-3">
                         <TouchableOpacity className="w-12 h-12 bg-white rounded-full items-center justify-center shadow-md">
                             <Ionicons name="locate" size={24} color={COLORS.primary} />
@@ -93,7 +89,6 @@ export const CrimeReportsModal = ({ visible, onClose }: Props) => {
                     </View>
                 </View>
 
-                {/* 3. Bottom Sheet Panel */}
                 <BottomSheet
                     ref={bottomSheetRef}
                     index={0}
@@ -104,9 +99,7 @@ export const CrimeReportsModal = ({ visible, onClose }: Props) => {
                     <BottomSheetScrollView contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 40 }}>
 
                         {activeTab === 'crimes' ? (
-                            // CRIMES CONTENT
                             <View className="items-center pt-2">
-                                {/* Date Filter */}
                                 <View className="flex-row items-center mb-6">
                                     <TouchableOpacity>
                                         <Ionicons name="chevron-back" size={16} color="#7762F0" />
@@ -114,7 +107,6 @@ export const CrimeReportsModal = ({ visible, onClose }: Props) => {
                                     <Text className="font-bold text-lg mx-4">Last 30 days</Text>
                                 </View>
 
-                                {/* Icons Row */}
                                 <View className="flex-row gap-6 mb-6">
                                     <Ionicons name="bicycle" size={24} color="#7762F0" />
                                     <FontAwesome5 name="walking" size={24} color="#7762F0" />
@@ -127,9 +119,7 @@ export const CrimeReportsModal = ({ visible, onClose }: Props) => {
                                 </Text>
                             </View>
                         ) : (
-                            // OFFENDERS CONTENT
                             <View className="items-center pt-8">
-                                {/* Icons Row */}
                                 <View className="flex-row gap-6 mb-6">
                                     <Ionicons name="bicycle" size={24} color="#7762F0" />
                                     <FontAwesome5 name="walking" size={24} color="#7762F0" />

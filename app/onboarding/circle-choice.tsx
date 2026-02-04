@@ -30,8 +30,6 @@ export default function CircleChoiceScreen() {
             </View>
 
    
-
-            {/* Floating Button for the Top Section (Join) */}
             <View className="absolute bottom-10 w-full px-6">
                 <OnboardingButton
                     title="Continue"

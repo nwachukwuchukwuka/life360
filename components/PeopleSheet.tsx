@@ -23,7 +23,7 @@ interface PeopleSheetProps {
 }
 
 export const PeopleSheet = forwardRef<BottomSheet, PeopleSheetProps>(({ members, onMemberPress, onAddMemberPress }, ref) => {
-  const snapPoints = useMemo(() => ['20%', '90%'], []);
+  const snapPoints = useMemo(() => ['23%', '80%'], []);
   const router = useRouter();
   return (
     <BottomSheet

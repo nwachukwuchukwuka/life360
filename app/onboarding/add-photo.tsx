@@ -8,7 +8,6 @@ export default function AddPhotoScreen() {
     const router = useRouter();
 
     const handleAddPhoto = () => {
-        // Simulating the System Alert
         Alert.alert(
             "\"Life360\" Would Like to Access Your Photos",
             "Life360 needs photo access to allow you to choose a profile photo.",

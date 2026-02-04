@@ -16,7 +16,6 @@ export default function Paginator({ data, scrollX }: PaginatorProps) {
         const animatedStyle = useAnimatedStyle(() => {
           const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
           
-          // Animate opacity and scale based on scroll position
           const opacity = interpolate(scrollX.value, inputRange, [0.5, 1, 0.5], Extrapolation.CLAMP);
           const scale = interpolate(scrollX.value, inputRange, [0.8, 1.2, 0.8], Extrapolation.CLAMP);
 

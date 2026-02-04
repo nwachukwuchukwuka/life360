@@ -30,7 +30,7 @@ export default function ShareCodeScreen() {
       <View className="w-full pb-10 gap-4">
         <OnboardingButton 
             title="Share code" 
-            variant="primary" // Peach
+            variant="primary"
             onPress={() => console.log('Share Sheet Open')}
         />
         

@@ -10,7 +10,7 @@ type FlowStep =
     | 'pin-setup'
     | 'practice-intro'
     | 'practice-active'
-    | 'practice-end' 
+    | 'practice-end'
     | 'success'
     | 'upsell'
     | 'main';
@@ -30,7 +30,8 @@ export default function SosScreen() {
     const [isPressing, setIsPressing] = useState(false);
 
     const flatListRef = useRef<FlatList>(null);
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
+    const timerRef = useRef<any>(null);
+
 
     const handleIntroNext = () => {
         if (introIndex < INTRO_SLIDES.length - 1) {
@@ -52,7 +53,7 @@ export default function SosScreen() {
     };
 
     const handleSavePin = () => {
-        setPin([]); 
+        setPin([]);
         setStep('practice-intro');
     };
 
@@ -76,7 +77,7 @@ export default function SosScreen() {
 
         if (newPin.join('').length === 4) {
             clearInterval(timerRef.current!);
-            setStep('practice-end'); 
+            setStep('practice-end');
         }
     };
 
@@ -151,7 +152,7 @@ export default function SosScreen() {
                                 {/* Render Checkmark List for Slide 1 */}
                                 {item.list && (
                                     <View className="w-full pl-4">
-                                        {item.list.map((l, i) => (
+                                        {item.list.map((l: string, i: number) => (
                                             <View key={i} className="flex-row items-center mb-3">
                                                 <Ionicons name="checkmark" size={18} color="#7762F0" />
                                                 <Text className="ml-3 text-gray-700">{l}</Text>
@@ -215,7 +216,7 @@ export default function SosScreen() {
                 </View>
             )}
 
-            {/* --- STEP 3: PRACTICE INTRO --- */}  
+            {/* --- STEP 3: PRACTICE INTRO --- */}
             {step === 'practice-intro' && (
                 <View className="flex-1">
                     <View className="bg-[#7762F0] py-3 items-center">

@@ -19,18 +19,15 @@ const CAROUSEL_ITEMS = [
 ];
 
 export const EmergencyContactsModal = ({ visible, onClose }: Props) => {
-    // -- State --
     const [showOptions, setShowOptions] = useState(false);
     const [showManualModal, setShowManualModal] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
     const [activeIndex, setActiveIndex] = useState(0);
 
-    // Data State
     const [contacts, setContacts] = useState<any[]>([]);
     const [tempName, setTempName] = useState('');
 
-    // -- Handlers --
     const handleContactSave = (data: { firstName: string, lastName: string, phone: string }) => {
         setShowManualModal(false);
 
@@ -69,7 +66,6 @@ export const EmergencyContactsModal = ({ visible, onClose }: Props) => {
             <SafeAreaProvider>
                 <View className="flex-1 bg-[#F2F2F7]">
 
-                    {/* --- HEADER --- */}
                     <SafeAreaView edges={['top']} className="bg-white z-10 shadow-sm">
                         <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-200">
                             <TouchableOpacity onPress={onClose}>
@@ -80,10 +76,8 @@ export const EmergencyContactsModal = ({ visible, onClose }: Props) => {
                         </View>
                     </SafeAreaView>
 
-                    {/* --- MAIN CONTENT --- */}
                     <View className="flex-1">
                         {contacts.length === 0 ? (
-                            // EMPTY STATE
                             <View className="flex-1 items-center justify-center px-8">
                                 <Image
                                     source={{ uri: 'https://img.freepik.com/free-vector/alert-concept-illustration_114360-176.jpg' }}
@@ -106,9 +100,7 @@ export const EmergencyContactsModal = ({ visible, onClose }: Props) => {
                                 </Text>
                             </View>
                         ) : (
-                            // LIST STATE
                             <View className="flex-1">
-                                {/* Top Carousel */}
                                 <View className="mt-4 mb-4">
                                     <FlatList
                                         data={CAROUSEL_ITEMS}
@@ -132,7 +124,6 @@ export const EmergencyContactsModal = ({ visible, onClose }: Props) => {
                                     </View>
                                 </View>
 
-                                {/* List Header */}
                                 <View className="flex-row justify-between px-6 mt-6 mb-2">
                                     <Text className="text-gray-400 text-xs font-bold">YOUR EMERGENCY CONTACTS</Text>
                                     <TouchableOpacity onPress={() => setShowOptions(true)}>
@@ -140,11 +131,9 @@ export const EmergencyContactsModal = ({ visible, onClose }: Props) => {
                                     </TouchableOpacity>
                                 </View>
 
-                                {/* Contacts List */}
                                 <FlatList
                                     data={contacts}
                                     keyExtractor={item => item.id}
-                                    // contentContainerStyle={{ paddingHorizontal: 24 }}
                                     renderItem={({ item }) => (
                                         <View className="flex-row items-center bg-white p-4 mb-3 shadow-sm">
                                             <View style={{ backgroundColor: item.color }} className="w-12 h-12 rounded-full items-center justify-center mr-4">
@@ -161,7 +150,6 @@ export const EmergencyContactsModal = ({ visible, onClose }: Props) => {
                         )}
                     </View>
 
-                    {/* --- ADD OPTIONS OVERLAY --- */}
                     {showOptions && (
                         <View className="absolute inset-0 bg-black/60 items-center justify-center px-8 z-50">
                             <View className="bg-white w-full rounded-2xl p-6 items-center">
@@ -196,7 +184,6 @@ export const EmergencyContactsModal = ({ visible, onClose }: Props) => {
                         </View>
                     )}
 
-                    {/* --- SUCCESS OVERLAY --- */}
                     {showSuccess && (
                         <View className="absolute inset-0 bg-black/60 items-center justify-center px-8 z-50">
                             <View className="bg-white w-full rounded-2xl p-6 items-center">

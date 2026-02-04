@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 interface Props {
     visible: boolean;
     onClose: () => void;
-    onPopBubble: () => void; 
+    onPopBubble: () => void;
 }
 
 export const ActiveBubbleModal = ({ visible, onClose, onPopBubble }: Props) => {

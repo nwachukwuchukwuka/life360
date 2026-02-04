@@ -14,11 +14,9 @@ export default function JoinCodeScreen() {
     newCode[index] = text;
     setCode(newCode);
 
-    // Auto focus next
     if (text && index < 5) {
       inputs.current[index + 1]?.focus();
     }
-    // Handle backspace (simple logic)
     if (!text && index > 0) {
       inputs.current[index - 1]?.focus();
     }
@@ -35,14 +33,14 @@ export default function JoinCodeScreen() {
         {code.map((digit, index) => (
           <React.Fragment key={index}>
             <TextInput
-              ref={el => inputs.current[index] = el}
+              // ref={el => inputs.current[index] = el}
+              ref={(el) => { inputs.current[index] = el; }} 
               className="w-12 h-14 bg-white rounded-lg text-center text-2xl font-bold text-black"
               maxLength={1}
               value={digit}
               onChangeText={(text) => handleInput(text, index)}
-              keyboardType="visible-password" // Hide suggestions
+              keyboardType="visible-password" 
             />
-            {/* Dash after 3rd digit */}
             {index === 2 && <View className="justify-center"><Text className="text-white font-bold text-xl">-</Text></View>}
           </React.Fragment>
         ))}

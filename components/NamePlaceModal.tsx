@@ -25,7 +25,7 @@ export const NamePlaceModal = ({ visible, onClose, onSelect, memberName }: Props
 
   const handleSelect = (name: string) => {
     onSelect(name);
-    setPlaceName(''); // Reset
+    setPlaceName('');
   };
 
   return (

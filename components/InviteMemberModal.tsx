@@ -24,7 +24,6 @@ export const InviteMemberModal = ({ visible, onClose }: Props) => {
         <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">
             <SafeAreaView className="flex-1 bg-white">
 
-                {/* Header */}
                 <View className="flex-row items-center justify-between px-4 py-4 border-b border-gray-100">
                     <View className="w-10" />
                     <Text className="font-bold text-lg">Invite Code</Text>

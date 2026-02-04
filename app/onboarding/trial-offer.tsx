@@ -14,7 +14,6 @@ export default function TrialOfferScreen() {
                 <Ionicons name="close" size={24} color="black" />
             </TouchableOpacity>
 
-            {/* Top Map Graphic Area */}
             <View className="h-[30%] w-full bg-blue-50 relative overflow-hidden">
                 <Image
                     source={{ uri: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=2062&auto=format&fit=crop' }}

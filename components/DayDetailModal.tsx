@@ -1,7 +1,7 @@
-// components/DayDetailModal.tsx
 import { FamilyMember } from '@/components/PeopleSheet';
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import Slider from '@react-native-community/slider';
+import React, { useState } from 'react';
 import { Modal, Text, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker, Polyline, PROVIDER_DEFAULT } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -13,7 +13,8 @@ interface Props {
 }
 
 export const DayDetailModal = ({ visible, onClose, member }: Props) => {
-    // Mock location history for the day
+    const [sliderValue, setSliderValue] = useState(0);
+
     const locationHistory = [
         { latitude: member.coordinate.latitude, longitude: member.coordinate.longitude },
         { latitude: member.coordinate.latitude + 0.002, longitude: member.coordinate.longitude + 0.001 },
@@ -21,7 +22,12 @@ export const DayDetailModal = ({ visible, onClose, member }: Props) => {
         { latitude: member.coordinate.latitude + 0.005, longitude: member.coordinate.longitude + 0.002 },
     ];
 
-    // Get today's date formatted
+    const currentIndex = Math.min(
+        Math.floor(sliderValue * locationHistory.length),
+        locationHistory.length - 1
+    );
+    const currentPosition = locationHistory[currentIndex];
+
     const today = new Date();
     const dayName = today.toLocaleDateString('en-US', { weekday: 'long' });
     const monthDay = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
@@ -44,7 +50,7 @@ export const DayDetailModal = ({ visible, onClose, member }: Props) => {
                 </View>
 
                 {/* Date Display */}
-                <View className="py-4 items-center">
+                <View className="py-2 items-center">
                     <Text className="text-lg font-bold text-black">
                         {dayName} · {monthDay}
                     </Text>
@@ -63,29 +69,24 @@ export const DayDetailModal = ({ visible, onClose, member }: Props) => {
                         }}
                         mapType="satellite"
                     >
-                        {/* Path line showing movement */}
                         <Polyline
-                            coordinates={locationHistory}
+                            coordinates={locationHistory.slice(0, currentIndex + 1)}
                             strokeColor="white"
                             strokeWidth={3}
                             lineDashPattern={[1]}
                         />
 
-                        {/* Current/Latest location marker */}
-                        <Marker
-                            coordinate={locationHistory[locationHistory.length - 1]}
-                        >
+                        <Marker coordinate={currentPosition}>
                             <View className="items-center">
                                 <View
-                                    style={{ backgroundColor: member.color }}
-                                    className="w-10 h-10 rounded-full border-3 border-yellow-400 items-center justify-center"
+                                    style={{ backgroundColor: member.color, borderColor: '#FBBF24', borderWidth: 3 }}
+                                    className="w-10 h-10 rounded-full items-center justify-center"
                                 >
                                     <Text className="text-white font-bold text-sm">{member.initial}</Text>
                                 </View>
                             </View>
                         </Marker>
 
-                        {/* User's current location (blue dot) */}
                         <Marker
                             coordinate={{
                                 latitude: member.coordinate.latitude + 0.001,
@@ -98,22 +99,17 @@ export const DayDetailModal = ({ visible, onClose, member }: Props) => {
                 </View>
 
                 {/* Bottom Timeline Scrubber */}
-                <View className="bg-white px-4 py-4 border-t border-gray-200">
-                    <View className="flex-row items-center justify-between">
-                        {/* Timeline bar */}
-                        <View className="flex-1 h-1 bg-gray-200 rounded-full mx-2 relative">
-                            {/* Progress indicator */}
-                            <View
-                                className="absolute left-0 top-0 h-1 bg-gray-400 rounded-full"
-                                style={{ width: '15%' }}
-                            />
-                            {/* Scrubber handle */}
-                            <View
-                                className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full border-2 border-gray-400"
-                                style={{ left: '15%', marginLeft: -8, marginTop: -8 }}
-                            />
-                        </View>
-                    </View>
+                <View className="bg-white px-4 py-4 border-t border-gray-200 pb-14">
+                    <Slider
+                        style={{ width: '100%', height: 40 }}
+                        minimumValue={0}
+                        maximumValue={1}
+                        value={sliderValue}
+                        onValueChange={setSliderValue}
+                        minimumTrackTintColor="#9CA3AF"
+                        maximumTrackTintColor="#E5E7EB"
+                        thumbTintColor="#FFFFFF"
+                    />
                 </View>
             </SafeAreaView>
         </Modal>

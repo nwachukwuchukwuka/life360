@@ -22,10 +22,8 @@ export const PlacesSuccessModal = ({ visible, onClose }: Props) => {
         <Modal visible={visible} transparent animationType="fade">
             <View className="flex-1 bg-black/80 justify-center items-center px-6">
                 
-                {/* Card Container */}
                 <View className="bg-white w-full rounded-2xl overflow-hidden">
                     
-                    {/* 1. Map Header Section */}
                     <View className="h-40 w-full relative">
                         <MapView
                             provider={PROVIDER_DEFAULT}
@@ -36,19 +34,15 @@ export const PlacesSuccessModal = ({ visible, onClose }: Props) => {
                             pitchEnabled={false}
                             initialRegion={{
                                 latitude: 1.3521, 
-                                longitude: 103.769, // Random coord for display
+                                longitude: 103.769,
                                 latitudeDelta: 0.005,
                                 longitudeDelta: 0.005,
                             }}
                         />
                         
-                        {/* Pulse/Pin Overlay */}
                         <View className="absolute inset-0 items-center justify-center">
-                            {/* Outer Pulse */}
                             <View className="w-20 h-20 bg-[#7762F0]/20 rounded-full items-center justify-center">
-                                {/* Inner Pulse */}
                                 <View className="w-10 h-10 bg-[#7762F0]/40 rounded-full items-center justify-center">
-                                    {/* White Pin Circle */}
                                     <View className="w-5 h-5 bg-white rounded-full items-center justify-center shadow-sm">
                                         <Ionicons name="location" size={12} color={COLORS.primary} />
                                     </View>
@@ -57,7 +51,6 @@ export const PlacesSuccessModal = ({ visible, onClose }: Props) => {
                         </View>
                     </View>
 
-                    {/* 2. Content Section */}
                     <View className="p-6 items-center">
                         <Text className="text-2xl font-bold text-center text-black mb-4 px-4 leading-8">
                             Home is now one of{'\n'}your Places

@@ -33,7 +33,6 @@ export const BubbleDurationStep = ({ duration, setDuration, onNext }: Props) => 
                      <Text className="text-xl font-bold text-black pl-20">Hours</Text>
                 </View>
 
-                {/* The Scrolling Numbers */}
                 <View className="h-full w-full z-10">
                     <FlatList
                         data={HOURS}

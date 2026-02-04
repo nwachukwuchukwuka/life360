@@ -42,4 +42,4 @@ export const DirectionsModal = ({ visible, onClose, onSelectApp }: Props) => {
       </View>
     </Modal>
   );
-};
+}; 

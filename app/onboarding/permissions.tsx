@@ -38,7 +38,6 @@ const PermissionRow = ({ title, description, isEnabled, onEnable }: PermissionRo
 export default function PermissionsScreen() {
     const router = useRouter();
 
-    // State to track permissions
     const [pushEnabled, setPushEnabled] = useState(false);
     const [motionEnabled, setMotionEnabled] = useState(false);
     const [locationEnabled, setLocationEnabled] = useState(false);
@@ -57,20 +56,15 @@ export default function PermissionsScreen() {
     };
 
     const handleMotion = () => {
-        // Simulate system alert
         setMotionEnabled(true);
     };
 
     const handleLocation = () => {
-        // Simulate navigation to the Education/System flow
         setLocationEnabled(true);
     };
     const handleContinue = async () => {
-        // 1. Request Tracking Permission (iOS System Popup)
         const { status } = await requestTrackingPermissionsAsync();
         
-        // 2. Regardless of choice, navigate to next screen
-        // (In a real app, you might log this status)
         router.push('/onboarding/add-places-intro');
       };
 
@@ -111,7 +105,7 @@ export default function PermissionsScreen() {
 
                 <OnboardingButton
                     title="Continue"
-                    isValid={allEnabled} // Only turns peach when all are true
+                    isValid={allEnabled}
                     onPress={handleContinue}
                 />
 

@@ -10,7 +10,6 @@ export default function RoleSelectionScreen() {
   const router = useRouter();
 
   const handleSelect = (role: string) => {
-    // In real app, save role to state here
     router.push('/onboarding/add-photo');
   };
 

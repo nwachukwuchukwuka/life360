@@ -21,7 +21,7 @@ export const CountryPickerModal = ({ visible, onClose, countries, onSelect }: Pr
         <Modal
             visible={visible}
             animationType="slide"
-            presentationStyle="pageSheet" // iOS style card modal
+            presentationStyle="pageSheet" 
             onRequestClose={onClose}
         >
             <SafeAreaView className="flex-1 bg-white">

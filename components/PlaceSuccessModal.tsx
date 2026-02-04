@@ -17,7 +17,6 @@ export const PlaceSuccessModal = ({ visible, onClose, placeName, coordinate }: P
         <View className="flex-1 bg-black/60 items-center justify-center px-6">
             <View className="bg-white w-full rounded-2xl overflow-hidden items-center pb-8">
                 
-                {/* Top Map Snippet */}
                 <View className="w-full h-32 bg-gray-100 relative mb-8">
                     <MapView 
                         provider={PROVIDER_DEFAULT}
@@ -31,7 +30,6 @@ export const PlaceSuccessModal = ({ visible, onClose, placeName, coordinate }: P
                             longitudeDelta: 0.002
                         }}
                     />
-                    {/* Purple Radar Overlay */}
                     <View className="absolute inset-0 items-center justify-center">
                         <View className="w-24 h-24 bg-[#7762F0]/20 rounded-full items-center justify-center border border-[#7762F0]/30">
                             <View className="w-12 h-12 bg-[#7762F0]/40 rounded-full items-center justify-center">

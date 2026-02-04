@@ -17,7 +17,6 @@ export const EnterManuallyModal = ({ visible, onClose, onSave }: Props) => {
   const handleSave = () => {
     if (firstName && phone) {
       onSave({ firstName, lastName, phone });
-      // Reset fields
       setFirstName('');
       setLastName('');
       setPhone('');

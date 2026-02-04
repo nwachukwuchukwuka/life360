@@ -15,7 +15,7 @@ interface Props {
 export const MemberDetailSheet = forwardRef<BottomSheet, Props>(
     ({ member, onAddPlacePress, onGetDirectionsPress, onUnlockPremiumPress }, ref) => {
 
-        const snapPoints = useMemo(() => ['20%', '55%'], []);
+        const snapPoints = useMemo(() => ['22%', '55%'], []);
 
         return (
             <BottomSheet
@@ -25,7 +25,7 @@ export const MemberDetailSheet = forwardRef<BottomSheet, Props>(
                 handleIndicatorStyle={{ backgroundColor: '#E5E7EB', width: 40 }}
                 backgroundStyle={{ borderRadius: 32, shadowColor: "#000", shadowOffset: { width: 0, height: -2 }, shadowOpacity: 0.1, shadowRadius: 10, elevation: 5 }}
             >
-                <BottomSheetScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+                <BottomSheetScrollView >
                     <View className="px-6 pt-2">
 
                         {/* Header Info */}
@@ -86,7 +86,13 @@ export const MemberDetailSheet = forwardRef<BottomSheet, Props>(
                         {/* Location History Card */}
                         <LinearGradient
                             colors={['#7762F0', '#5B4BC4']}
-                            className="rounded-3xl p-6 relative overflow-hidden h-64 justify-end"
+                            style={{
+                                padding: 24,
+                                overflow: 'hidden',
+                                height: 256,
+                                justifyContent: 'flex-end',
+                                marginHorizontal: -24,
+                            }}
                         >
                             <View className="absolute top-4 left-4 right-4 h-32 opacity-30">
                                 <View className="absolute top-2 left-2 w-full h-1 bg-white/50 rotate-12" />
@@ -95,9 +101,7 @@ export const MemberDetailSheet = forwardRef<BottomSheet, Props>(
                                     <Image source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80' }} className="w-full h-full" />
                                 </View>
                             </View>
-                            <View className="w-12 h-12 rounded-full bg-orange-400 border-2 border-white items-center justify-center mb-4 absolute top-24 left-10">
-                                <Text className="text-white font-bold text-xs text-center">68{'\n'}mph</Text>
-                            </View>
+                        
                             <Text className="text-white font-bold text-lg text-center mb-2">Get 30 days of Location History</Text>
                             <Text className="text-white/70 text-center text-xs px-2 mb-4">Upgrade to see your Circle's past trips, drives, and more from the past 30 days.</Text>
                             <TouchableOpacity
