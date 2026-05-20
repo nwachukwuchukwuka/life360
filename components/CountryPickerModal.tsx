@@ -1,5 +1,4 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
 import { FlatList, Modal, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -21,7 +20,7 @@ export const CountryPickerModal = ({ visible, onClose, countries, onSelect }: Pr
         <Modal
             visible={visible}
             animationType="slide"
-            presentationStyle="pageSheet" 
+            presentationStyle="pageSheet"
             onRequestClose={onClose}
         >
             <SafeAreaView className="flex-1 bg-white">
@@ -56,4 +55,4 @@ export const CountryPickerModal = ({ visible, onClose, countries, onSelect }: Pr
             </SafeAreaView>
         </Modal>
     );
-};
+}; 
