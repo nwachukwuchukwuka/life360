@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import {
     BottomSheetBackdrop,
     BottomSheetModal,
@@ -15,7 +16,7 @@ interface Props {
 
 export const MapTypeSheet = forwardRef<BottomSheetModal, Props>(
     ({ selectedType, onSelectType }, ref) => {
-        const snapPoints = useMemo(() => ['28%'], []);
+        const snapPoints = useMemo(() => ['30%'], []);
 
         const mapTypes: { type: MapType; label: string; image: string }[] = [
             {
@@ -56,56 +57,65 @@ export const MapTypeSheet = forwardRef<BottomSheetModal, Props>(
                 enableDynamicSizing={false}
                 enablePanDownToClose={true}
                 animateOnMount={true}
-                backgroundStyle={{ backgroundColor: 'white', borderRadius: 0 }}
-                handleIndicatorStyle={{ backgroundColor: '#E5E7EB', width: 40 }}
+                backgroundStyle={{ backgroundColor: '#0b111e', borderRadius: 32 }}
+                handleIndicatorStyle={{ backgroundColor: '#24354f', width: 48, height: 5 }}
                 backdropComponent={(props) => (
                     <BottomSheetBackdrop
                         {...props}
                         disappearsOnIndex={-1}
                         appearsOnIndex={0}
-                        opacity={0.5}
+                        opacity={0.7}
                     />
                 )}
             >
-                <BottomSheetView style={{ flex: 1, paddingHorizontal: 16, paddingBottom: 24 }}>
+                <BottomSheetView style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10, paddingBottom: 24 }}>
                     {/* Header */}
-                    <View className="flex-row items-center justify-between mb-4">
-                        <Text className="text-base font-semibold text-gray-800">Map type</Text>
-                        <TouchableOpacity onPress={handleClose}>
-                            <Text className='text-xs text-[#7762F0]'>CLOSE</Text>
+                    <View className="flex-row items-center justify-between mb-8">
+                        <Text className="text-xl font-bold text-white">Map type</Text>
+                        <TouchableOpacity onPress={handleClose} className="w-10 h-10 bg-[#111927] border border-[#24354f] rounded-full items-center justify-center">
+                            <Ionicons name="close" size={20} color="#94a3b8" />
                         </TouchableOpacity>
                     </View>
 
                     {/* Map Type Options */}
-                    <View className="flex-row justify-around">
-                        {mapTypes.map((item, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                onPress={() => handleSelect(item.type)}
-                                className="items-center"
-                            >
-                                <View
-                                    className={`w-32 h-24 overflow-hidden border-2 ${selectedType === item.type
-                                            ? 'border-[#7762F0]'
-                                            : 'border-gray-200'
-                                        }`}
+                    <View className="flex-row justify-between">
+                        {mapTypes.map((item, index) => {
+                            const isSelected = selectedType === item.type;
+                            return (
+                                <TouchableOpacity
+                                    key={index}
+                                    onPress={() => handleSelect(item.type)}
+                                    className="items-center w-[30%]"
+                                    activeOpacity={0.8}
                                 >
-                                    <Image
-                                        source={{ uri: item.image }}
-                                        className="w-full h-full"
-                                        resizeMode="cover"
-                                    />
-                                </View>
-                                <Text
-                                    className={`mt-2 text-sm ${selectedType === item.type
-                                            ? 'text-[#7762F0] font-semibold'
-                                            : 'text-gray-600'
-                                        }`}
-                                >
-                                    {item.label}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
+                                    <View
+                                        className={`w-full aspect-video rounded-2xl overflow-hidden border-2 mb-3 ${isSelected
+                                                ? 'border-indigo-500'
+                                                : 'border-[#24354f]'
+                                            }`}
+                                    >
+                                        <Image
+                                            source={{ uri: item.image }}
+                                            className={`w-full h-full ${!isSelected ? 'opacity-50' : 'opacity-100'}`}
+                                            resizeMode="cover"
+                                        />
+                                    </View>
+                                    <View className={`px-4 py-1.5 rounded-full border ${isSelected
+                                            ? 'bg-indigo-500/20 border-indigo-500/30'
+                                            : 'bg-[#111927] border-[#24354f]'
+                                        }`}>
+                                        <Text
+                                            className={`text-xs font-bold ${isSelected
+                                                    ? 'text-indigo-400'
+                                                    : 'text-slate-400'
+                                                }`}
+                                        >
+                                            {item.label}
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            );
+                        })}
                     </View>
                 </BottomSheetView>
             </BottomSheetModal>

@@ -1,7 +1,7 @@
 import { PremiumDetailModal } from '@/components/PremiumDetailModal';
 import { PurchaseSuccessModal } from '@/components/PurchaseSuccessModal';
-import { COLORS, PREMIUM_FEATURES, PremiumFeature } from '@/constants';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { PREMIUM_FEATURES, PremiumFeature } from '@/constants';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { FlatList, Image, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
@@ -17,8 +17,8 @@ export default function PremiumScreen() {
     const [selectedFeature, setSelectedFeature] = useState<PremiumFeature | null>(null);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    // Layout Constants
-    const CARD_WIDTH = width * 0.8;
+    // Layout Constants - Adjusted for a more immersive card width
+    const CARD_WIDTH = width * 0.85;
     const SPACING = 16;
     const SNAP_INTERVAL = CARD_WIDTH + SPACING;
 
@@ -42,28 +42,54 @@ export default function PremiumScreen() {
     };
 
     return (
-        <View className="flex-1" style={{ backgroundColor: '#7762F0' }}>
+        <View className="flex-1 bg-[#090d16] relative">
+
+            {/* Abstract Background Accents */}
+            <View className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-amber-500/5 blur-3xl" />
+            <View className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-indigo-500/5 blur-3xl" />
+
             <SafeAreaProvider>
                 <SafeAreaView className="flex-1">
 
-                    {/* Header */}
-                    <View className="flex-row items-center px-4 py-2">
-                        <TouchableOpacity onPress={() => router.back()}>
-                            <Ionicons name="close" size={28} color="white" />
-                        </TouchableOpacity>
-                        <View className="flex-1 items-center mr-7">
-                            <Text className="text-white font-bold text-lg">Life360 Premium</Text>
+                    {/* Modern Top Navigation & User Context */}
+                    <View className="px-6 pt-4 pb-2 flex-row items-center justify-between z-10">
+                        <View>
+                            <View className="flex-row mb-1.5">
+                                <View className="w-8 h-8 rounded-full border-2 border-[#111927] overflow-hidden relative z-20">
+                                    <Image
+                                        source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80' }}
+                                        className="w-full h-full"
+                                    />
+                                </View>
+                                <View className="w-8 h-8 rounded-full bg-indigo-500 border-2 border-[#111927] items-center justify-center -ml-3 relative z-10">
+                                    <Text className="text-white text-[10px] font-bold">J</Text>
+                                </View>
+                            </View>
+                            <Text className="text-slate-400 text-xs">For your entire circle</Text>
                         </View>
+
+                        <TouchableOpacity
+                            onPress={() => router.back()}
+                            className="w-12 h-12 rounded-full bg-[#162235] items-center justify-center border border-[#2b3d54]"
+                        >
+                            <Ionicons name="close" size={24} color="#94a3b8" />
+                        </TouchableOpacity>
                     </View>
 
-                    {/* Carousel Section */}
-                    <View className="flex-1 justify-center pt-8 pb-4">
+                    {/* Header Typography */}
+                    <View className="px-6 pt-4">
+                        <Text className="text-white text-3xl font-bold mb-1">Unlock premium</Text>
+                        <Text className="text-amber-400 text-sm font-semibold">Elevate your family's safety</Text>
+                    </View>
+
+                    {/* Highly Styled Carousel Section */}
+                    <View className="flex-1 mt-6">
                         <FlatList
                             data={PREMIUM_FEATURES}
                             keyExtractor={item => item.id}
                             horizontal
                             showsHorizontalScrollIndicator={false}
-                            contentContainerStyle={{ paddingHorizontal: (width - CARD_WIDTH) / 2 }}
+                            contentContainerStyle={{ paddingHorizontal: (width - CARD_WIDTH) / 2, paddingBottom: 24 }}
                             snapToInterval={SNAP_INTERVAL}
                             decelerationRate="fast"
                             onScroll={handleScroll}
@@ -71,106 +97,92 @@ export default function PremiumScreen() {
                             renderItem={({ item }) => (
                                 <View
                                     style={{ width: CARD_WIDTH, marginRight: SPACING }}
-                                    className="bg-white rounded-3xl p-6 items-center justify-between h-[300px]"
+                                    className="bg-[#111927] border border-[#24354f] rounded-3xl p-6 flex-col justify-between"
                                 >
-                                    {/* Expand Icon */}
-                                    <TouchableOpacity
-                                        onPress={() => handleExpand(item)}
-                                        className="absolute top-4 right-4 p-2"
-                                    >
-                                        <MaterialCommunityIcons name="arrow-expand-all" size={20} color="#7762F0" />
-                                    </TouchableOpacity>
+                                    <View>
+                                        <View className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 items-center justify-center mb-6">
+                                            <Ionicons name={item.icon as any} size={32} color="#fbbf24" />
+                                        </View>
 
-                                    {/* Icon */}
-                                    <View className="mt-8">
-                                        <Ionicons name={item.icon as any} size={64} color="#5B4BC4" />
-                                    </View>
-
-                                    {/* Content */}
-                                    <View className="items-center">
-                                        <Text className="text-black text-xl font-bold text-center mb-4 leading-6">
+                                        <Text className="text-white text-2xl font-bold mb-3 leading-8">
                                             {item.title}
                                         </Text>
-                                        <Text className="text-gray-600 text-sm text-center leading-5 px-2">
+                                        <Text className="text-slate-400 text-sm leading-6">
                                             {item.description}
                                         </Text>
                                     </View>
 
-                                    <View className="h-4" />
+                                    {/* Subtly Integrated Expand Action */}
+                                    <TouchableOpacity
+                                        onPress={() => handleExpand(item)}
+                                        className="mt-8 bg-[#162235] border border-[#2b3d54] rounded-2xl p-4 flex-row items-center justify-between"
+                                        activeOpacity={0.7}
+                                    >
+                                        <Text className="text-slate-300 font-medium text-sm">Feature details</Text>
+                                        <Ionicons name="arrow-forward" size={18} color="#94a3b8" />
+                                    </TouchableOpacity>
                                 </View>
                             )}
                         />
+                    </View>
 
-                        {/* Pagination Dots */}
-                        <View className="flex-row justify-center mt-6 gap-2">
+                    {/* Redesigned Structural Pricing Panel */}
+                    <View className="px-6 pb-6 pt-2">
+
+                        <View className="flex-row justify-center mb-6 gap-2">
                             {PREMIUM_FEATURES.map((_, index) => (
                                 <View
                                     key={index}
-                                    className={`w-2 h-2 rounded-full ${index === currentIndex ? 'bg-white' : 'bg-white/30'}`}
+                                    className={`h-1.5 rounded-full transition-all ${index === currentIndex ? 'w-6 bg-amber-400' : 'w-2 bg-[#2b3d54]'}`}
                                 />
                             ))}
                         </View>
-                    </View>
 
-                    {/* Pricing & Footer Section */}
-                    <View className="px-6 pb-6">
-
-                        <View className="w-full flex-row justify-end pr-8 mb-1">
-                            <Text className="text-white text-xs font-bold">16% OFF</Text>
-                        </View>
-
-                        <View className="bg-[#5B4BC4] rounded-full p-1 flex-row h-12 mb-6">
+                        {/* Interactive Pricing Blocks */}
+                        <View className="flex-row gap-3 mb-6">
                             <TouchableOpacity
                                 onPress={() => setBillingCycle('monthly')}
-                                className={`flex-1 items-center justify-center rounded-full ${billingCycle === 'monthly' ? 'bg-[#7762F0]' : 'bg-transparent'}`}
+                                className={`flex-1 border p-4 rounded-3xl relative overflow-hidden ${billingCycle === 'monthly' ? 'bg-amber-500/10 border-amber-500/40' : 'bg-[#111927] border-[#24354f]'}`}
+                                activeOpacity={0.8}
                             >
-                                <Text className="text-white font-medium">$5.48/mo</Text>
+                                <Text className={`text-sm mb-1 ${billingCycle === 'monthly' ? 'text-amber-200' : 'text-slate-400'}`}>Monthly</Text>
+                                <Text className={`text-xl font-bold ${billingCycle === 'monthly' ? 'text-amber-400' : 'text-white'}`}>$5.48</Text>
+                                <Text className={`text-xs mt-1 ${billingCycle === 'monthly' ? 'text-amber-500/70' : 'text-slate-600'}`}>per month</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
                                 onPress={() => setBillingCycle('yearly')}
-                                className={`flex-1 items-center justify-center rounded-full ${billingCycle === 'yearly' ? 'bg-[#7762F0]' : 'bg-transparent'}`}
+                                className={`flex-1 border p-4 rounded-3xl relative overflow-hidden ${billingCycle === 'yearly' ? 'bg-amber-500/10 border-amber-500/40' : 'bg-[#111927] border-[#24354f]'}`}
+                                activeOpacity={0.8}
                             >
-                                <Text className="text-white font-medium">$55.98/yr</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                        <View className="items-center mb-8">
-                            <View className="flex-row mb-2">
-                                <Image
-                                    source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80' }}
-                                    className="w-6 h-6 rounded-full border border-white"
-                                />
-                                <View className="w-6 h-6 rounded-full bg-orange-400 border border-white items-center justify-center -ml-2">
-                                    <Text className="text-white text-[8px] font-bold">J</Text>
+                                <View className="absolute top-0 right-0 bg-amber-500 px-3 py-1 rounded-bl-2xl">
+                                    <Text className="text-black text-[10px] font-bold">Save 16%</Text>
                                 </View>
-                            </View>
-                            <Text className="text-white/90 text-sm">Includes all Circle members</Text>
-                            <Text className="text-white/60 text-[10px] underline mt-1">Life360 Terms and Privacy Policy</Text>
-                        </View>
-
-                        {/* CTA */}
-                        <View className="items-center">
-                            <Text className="text-white text-sm font-medium mb-1">Get 7 days for free</Text>
-                            <Text className="text-white font-bold mb-4">
-                                Then {billingCycle === 'monthly' ? '$5.48/month' : '$55.98/year'}. Cancel anytime.
-                            </Text>
-
-                            <TouchableOpacity
-                                onPress={handlePurchase}
-                                style={{ backgroundColor: COLORS.accent }}
-                                className="w-full h-14 rounded-full items-center justify-center"
-                            >
-                                <Text className="text-[#4A3B9F] font-bold text-lg">Start free trial</Text>
+                                <Text className={`text-sm mb-1 ${billingCycle === 'yearly' ? 'text-amber-200' : 'text-slate-400'}`}>Yearly</Text>
+                                <Text className={`text-xl font-bold ${billingCycle === 'yearly' ? 'text-amber-400' : 'text-white'}`}>$55.98</Text>
+                                <Text className={`text-xs mt-1 ${billingCycle === 'yearly' ? 'text-amber-500/70' : 'text-slate-600'}`}>per year</Text>
                             </TouchableOpacity>
                         </View>
 
+                        {/* Immersive CTA Area */}
+                        <TouchableOpacity
+                            onPress={handlePurchase}
+                            className="w-full h-16 bg-amber-500 rounded-[20px] flex-row items-center justify-center mb-4"
+                            activeOpacity={0.9}
+                        >
+                            <Text className="text-black font-bold text-lg mr-2">Start free trial</Text>
+                            <Ionicons name="sparkles" size={18} color="black" />
+                        </TouchableOpacity>
+
+                        <Text className="text-center text-slate-500 text-[11px] leading-4 px-4">
+                            Get 7 days free, then {billingCycle === 'monthly' ? '$5.48/month' : '$55.98/year'}. Cancel anytime. By continuing you agree to the Terms and Privacy Policy.
+                        </Text>
                     </View>
 
                 </SafeAreaView>
             </SafeAreaProvider>
 
-
+            {/* Modals remain functionally identical */}
             <PremiumDetailModal
                 visible={!!selectedFeature}
                 feature={selectedFeature}

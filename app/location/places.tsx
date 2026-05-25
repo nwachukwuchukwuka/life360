@@ -21,6 +21,7 @@ const SUGGESTED_PLACES = [
 
 const PlacesScreen = () => {
     const router = useRouter();
+
     const handleAddPlace = (prefilledName?: string) => {
         router.push({
             pathname: '/location/add',
@@ -34,71 +35,108 @@ const PlacesScreen = () => {
     };
 
     return (
-        <View className="flex-1 bg-white">
+        <View className="flex-1 bg-[#090d16]">
             <SafeAreaView edges={['top']} className="flex-1">
 
-                {/* Header */}
-                <View className="flex-row items-center justify-between px-4 py-2 border-b border-gray-100">
+                {/* Glass-style Premium Header */}
+                <View className="flex-row items-center justify-between px-4 py-3 bg-[#0b111e] border-b border-[#1d273a]">
                     <TouchableOpacity onPress={() => router.back()} className="p-2">
-                        <Ionicons name="close" size={28} color="black" />
+                        <Ionicons name="close" size={24} color="#00e5ff" />
                     </TouchableOpacity>
-                    <Text className="text-lg font-medium text-black">Places</Text>
-                    <View className="w-10" /> 
+                    <Text className="text-base font-bold text-white">Places manager</Text>
+                    <View className="w-10" />
                 </View>
 
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
 
-                    <TouchableOpacity onPress={() => handleAddPlace()} className="flex-row items-center px-4 py-5 border-b border-gray-100">
-                        <View className="w-10 h-10 rounded-full bg-[#7762F0] items-center justify-center mr-4">
-                            <Ionicons name="add" size={24} color="white" />
-                        </View>
-                        <Text className="text-[#7762F0] font-bold text-lg">Add a new Place</Text>
-                    </TouchableOpacity>
-
-                    {/* My Places List */}
-                    {MY_PLACES.map((place) => (
-                        <View key={place.id} className="flex-row items-center justify-between px-4 py-5 border-b border-gray-100">
-                            <View className="flex-row items-center">
-                                <View className="w-10 h-10 rounded-full border border-gray-200 items-center justify-center mr-4">
-                                    <Ionicons
-                                        name={place.name === 'Home' ? 'home' : 'location-sharp'}
-                                        size={20}
-                                        color={PRIMARY_COLOR}
-                                    />
-                                </View>
-                                <Text className="text-black font-bold text-lg">{place.name}</Text>
+                    {/* Features Hero Card */}
+                    <View className="mx-4 mt-5 bg-indigo-950/20 border border-indigo-500/20 rounded-3xl p-5 mb-6">
+                        <View className="flex-row items-center gap-3 mb-2.5">
+                            <View className="bg-indigo-500/20 rounded-xl p-2">
+                                <Ionicons name="map" size={20} color="#a78bfa" />
                             </View>
+                            <Text className="text-white font-bold text-sm">Zone tracking</Text>
+                        </View>
+                        <Text className="text-slate-400 text-xs leading-5">
+                            Create custom zones around your home, work, or school. Get auto-notifications when your Circle arrives or leaves.
+                        </Text>
+                    </View>
 
-                            <View className="flex-row items-center gap-4">
-                                <TouchableOpacity>
-                                    <Ionicons name="close" size={20} color="#C7C7CC" />
-                                </TouchableOpacity>
-                                <TouchableOpacity>
-                                    <View className="w-8 h-8 rounded-full bg-[#7762F0]/10 items-center justify-center">
-                                        <Ionicons name="notifications" size={18} color={PRIMARY_COLOR} />
+                    {/* Monitored Places Section */}
+                    <View className="px-4 mb-3 flex-row items-center gap-2">
+                        <View className="w-1 h-3.5 bg-[#7762F0] rounded-full" />
+                        <Text className="text-slate-400 font-bold text-xs">Monitored places</Text>
+                    </View>
+
+                    {MY_PLACES.map((place) => (
+                        <View key={place.id} className="mx-4 mb-3 bg-[#111927] border border-[#24354f] rounded-2xl p-4">
+                            <View className="flex-row items-center justify-between">
+                                <View className="flex-row items-center gap-3">
+                                    <View className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 items-center justify-center">
+                                        <Ionicons
+                                            name={place.name === 'Home' ? 'home' : 'location-sharp'}
+                                            size={20}
+                                            color="#a78bfa"
+                                        />
+                                    </View>
+                                    <View>
+                                        <Text className="text-white font-bold text-sm">{place.name}</Text>
+                                        <Text className="text-white text-[10px] font-medium mt-0.5">Active geofence</Text>
+                                    </View>
+                                </View>
+
+                                <View className="flex-row items-center gap-2">
+                                    <TouchableOpacity className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 items-center justify-center active:bg-emerald-500/20">
+                                        <Ionicons name="notifications" size={16} color="#34d399" />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity className="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/20 items-center justify-center active:bg-rose-500/20">
+                                        <Ionicons name="trash-outline" size={16} color="#f87171" />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    ))}
+
+                    {/* Recommendations Grid Section */}
+                    <View className="px-4 mt-6 mb-3 flex-row items-center gap-2">
+                        <View className="w-1 h-3.5 bg-[#a78bfa] rounded-full" />
+                        <Text className="text-slate-400 font-bold text-xs">Suggestions</Text>
+                    </View>
+
+                    <View className="flex-row flex-wrap px-2 mb-6">
+                        {SUGGESTED_PLACES.map((place) => (
+                            <View key={place.id} className="w-1/2 p-2">
+                                <TouchableOpacity
+                                    onPress={() => handleAddPlace(place.name.replace('Add your ', ''))}
+                                    className="bg-[#162235]/40 border border-[#2b3d54]/30 rounded-2xl p-4 items-center active:bg-[#162235]/70"
+                                >
+                                    <View className="w-10 h-10 rounded-full bg-[#7762F0]/10 border border-[#7762F0]/20 items-center justify-center mb-3">
+                                        {renderIcon(place.icon, place.type, '#a78bfa', 18)}
+                                    </View>
+                                    <Text className="text-white font-semibold text-xs text-center mb-2.5">{place.name}</Text>
+                                    <View className="bg-[#7762F0]/20 px-3 py-1 rounded-full border border-[#7762F0]/30">
+                                        <Text className="text-white font-bold text-[9px]">Quick add</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
-                        </View>
-                    ))}
-
-                    {/* Suggested Places List */}
-                    {SUGGESTED_PLACES.map((place) => (
-                        <TouchableOpacity key={place.id} className="flex-row items-center justify-between px-4 py-5 border-b border-gray-100">
-                            <View className="flex-row items-center">
-                                <View className="w-10 h-10 rounded-full bg-[#ECEBFA] items-center justify-center mr-4">
-                                    {renderIcon(place.icon, place.type, PRIMARY_COLOR, 18)}
-                                </View>
-                                <Text className="text-black font-bold text-lg">{place.name}</Text>
-                            </View>
-
-                            <TouchableOpacity>
-                                <Ionicons name="close" size={20} color="#C7C7CC" />
-                            </TouchableOpacity>
-                        </TouchableOpacity>
-                    ))}
+                        ))}
+                    </View>
 
                 </ScrollView>
+
+                {/* Sticky Action Button at Bottom */}
+                <View className="p-4 border-t border-[#1d273a] bg-[#0b111e]">
+                    <TouchableOpacity
+                        onPress={() => handleAddPlace()}
+                        className="w-full py-4 rounded-2xl bg-[#7762F0] items-center active:bg-[#6351d4]"
+                    >
+                        <View className="flex-row items-center gap-2">
+                            <Ionicons name="add-circle" size={20} color="white" />
+                            <Text className="text-white font-bold text-sm">Add a new place</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
             </SafeAreaView>
         </View>
     );

@@ -12,222 +12,240 @@ const SafetyScreen = () => {
   const [showBreachModal, setShowBreachModal] = useState(false);
   const [showCrimeModal, setShowCrimeModal] = useState(false);
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
-  const FeatureRow = ({ icon, color, title, status, isLock = false, badgeText = '', onPress }: any) => {
-    const Container = onPress ? TouchableOpacity : View;
 
+  const FeatureTile = ({ icon, color, title, status, badgeText = '', onPress }: any) => {
+    const Container = onPress ? TouchableOpacity : View;
     return (
       <Container
         onPress={onPress}
-        className="flex-row items-center justify-between py-4 border-b border-gray-100 last:border-0"
+        className="bg-[#111927] border border-[#24354f] rounded-3xl p-4 w-[48%] mb-4 relative overflow-hidden"
+        activeOpacity={0.7}
       >
-        <View className="flex-row items-center">
-          <View className={`w-10 h-10 rounded-full items-center justify-center mr-3`} style={{ backgroundColor: color }}>
+        <View className="absolute -top-4 -right-4 w-16 h-16 rounded-full opacity-20" style={{ backgroundColor: color }} />
+
+        <View className="flex-row justify-between items-start mb-6">
+          <View className="w-10 h-10 rounded-2xl items-center justify-center bg-slate-800/50 border border-slate-700/50">
             {icon}
           </View>
-          <View>
-            <Text className="text-base font-bold text-black">{title}</Text>
-            {badgeText ? (
-              <View className="bg-[#FFF9F0] px-2 py-0.5 rounded-md self-start mt-1 border border-[#FFE6BC]">
-                <View className="flex-row items-center">
-                  <Ionicons name="lock-closed" size={10} color="#F5A623" />
-                  <Text className="text-[#F5A623] text-[10px] font-bold ml-1">{badgeText}</Text>
-                </View>
-              </View>
-            ) : null}
-          </View>
+          {status === 'check' && (
+            <View className="w-5 h-5 rounded-full bg-emerald-500/20 items-center justify-center border border-emerald-500/30">
+              <Ionicons name="checkmark" size={12} color="#34d399" />
+            </View>
+          )}
+          {status === 'toggle' && (
+            <View className="w-8 h-4 bg-indigo-500/30 rounded-full p-0.5 items-end justify-center">
+              <View className="w-3 h-3 bg-indigo-400 rounded-full" />
+            </View>
+          )}
         </View>
 
-        {status === 'check' && (
-          <View className="w-6 h-6 rounded-full bg-[#34C759] items-center justify-center">
-            <Ionicons name="checkmark" size={16} color="white" />
+        <Text className="text-white font-bold text-sm mb-1">{title}</Text>
+
+        {badgeText ? (
+          <View className="flex-row items-center mt-2">
+            <Ionicons name="shield-checkmark" size={12} color={badgeText === 'Gold' ? '#fbbf24' : '#94a3b8'} />
+            <Text className={`text-[10px] font-bold ml-1 ${badgeText === 'Gold' ? 'text-amber-400' : 'text-slate-400'}`}>
+              {badgeText} member
+            </Text>
           </View>
-        )}
-        {status === 'arrow' && <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />}
-        {status === 'toggle' && (
-          <View className="w-10 h-6 bg-gray-200 rounded-full p-1 items-start">
-            <View className="w-4 h-4 bg-white rounded-full shadow-sm" />
-          </View>
+        ) : (
+          <Text className="text-slate-500 text-[10px] font-medium mt-1">Active protection</Text>
         )}
       </Container>
     );
   };
 
-  const DriverReportCard = () => (
-    <View className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-6">
-      <View className="items-center mb-4">
-        {/* Avatar Stack */}
-        <View className="flex-row">
-          <Image source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80' }} className="w-8 h-8 rounded-full border-2 border-white" />
-          <View className="w-8 h-8 rounded-full bg-[#7762F0] items-center justify-center border-2 border-white -ml-2">
-            <Text className="text-white font-bold text-xs">J</Text>
+  const DriverInsightBanner = () => (
+    <View className="mx-4 bg-[#1e1b4b] border border-[#4338ca]/30 rounded-3xl p-5 mb-8">
+      <View className="flex-row justify-between items-center mb-5">
+        <View className="flex-row items-center gap-3">
+          <View className="relative">
+            <Image source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80' }} className="w-10 h-10 rounded-full border border-indigo-500/50" />
+            <View className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-indigo-500 items-center justify-center border border-[#1e1b4b]">
+              <Text className="text-white font-bold text-[9px]">J</Text>
+            </View>
+          </View>
+          <View>
+            <Text className="text-white font-bold text-base">Driving analytics</Text>
+            <Text className="text-indigo-300 text-xs">Past 7 days</Text>
           </View>
         </View>
-        <Text className="font-bold text-black mt-2">Weekly Driver Report</Text>
+        <TouchableOpacity
+          onPress={() => router.push('/safety/driving-insights')}
+          className="bg-indigo-500/20 px-3 py-1.5 rounded-full border border-indigo-500/30"
+        >
+          <Text className="text-indigo-300 text-xs font-semibold">Details</Text>
+        </TouchableOpacity>
       </View>
 
-      <View className="flex-row gap-2 mb-4">
-        <View className="flex-1 bg-[#7762F0] p-3 rounded-xl">
-          <Text className="text-white font-bold text-lg">2</Text>
-          <Text className="text-white/80 text-xs">Total KMs</Text>
+      <View className="flex-row justify-between bg-black/20 rounded-2xl p-4">
+        <View className="items-center flex-1">
+          <Text className="text-white font-bold text-lg mb-0.5">2</Text>
+          <Text className="text-indigo-200/70 text-[10px]">Distance (km)</Text>
         </View>
-        <View className="flex-1 bg-[#7762F0] p-3 rounded-xl">
-          <Text className="text-white font-bold text-lg">43 km/h</Text>
-          <Text className="text-white/80 text-xs">Top Speed</Text>
+        <View className="w-[1px] bg-indigo-500/20" />
+        <View className="items-center flex-1">
+          <Text className="text-white font-bold text-lg mb-0.5">43</Text>
+          <Text className="text-indigo-200/70 text-[10px]">Top speed</Text>
         </View>
-        <View className="flex-1 bg-[#7762F0] p-3 rounded-xl">
-          <Text className="text-white font-bold text-lg">1</Text>
-          <Text className="text-white/80 text-xs">Total Drives</Text>
+        <View className="w-[1px] bg-indigo-500/20" />
+        <View className="items-center flex-1">
+          <Text className="text-white font-bold text-lg mb-0.5">1</Text>
+          <Text className="text-indigo-200/70 text-[10px]">Trips</Text>
         </View>
       </View>
+    </View>
+  );
 
-      <TouchableOpacity
-        onPress={() => router.push('/safety/driving-insights')}
-        className="w-full py-3 bg-[#FFE6BC] rounded-full items-center flex-row justify-center"
-      >
-        <Text className="text-[#4A3B9F] font-bold text-sm mr-2">See more driving insights</Text>
-        <Ionicons name="car-sport" size={16} color="#4A3B9F" />
-      </TouchableOpacity>
+  const BenefitRow = ({ icon, title, badge }: any) => (
+    <View className="flex-row items-center justify-between py-4 border-b border-[#1d273a] last:border-0">
+      <View className="flex-row items-center gap-4">
+        <View className="w-10 h-10 rounded-full bg-[#162235] items-center justify-center border border-[#2b3d54]">
+          {icon}
+        </View>
+        <View>
+          <Text className="text-slate-200 font-semibold text-sm mb-1">{title}</Text>
+          <View className="flex-row items-center">
+            <View className={`w-1.5 h-1.5 rounded-full mr-1.5 ${badge === 'Gold' ? 'bg-amber-400' : 'bg-slate-300'}`} />
+            <Text className="text-slate-500 text-[10px] font-medium">{badge} tier benefit</Text>
+          </View>
+        </View>
+      </View>
+      <View className="w-8 h-8 rounded-full bg-[#0b111e] items-center justify-center">
+        <Ionicons name="arrow-forward" size={14} color="#64748b" />
+      </View>
     </View>
   );
 
   return (
-    <View className="flex-1 bg-[#F2F2F7]">
+    <View className="flex-1 bg-[#090d16]">
       <SafeAreaView edges={['top']} className="flex-1">
-        <ScrollView contentContainerStyle={{ paddingBottom: 100, paddingTop: 60 }} showsVerticalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 100, paddingTop: 20 }} showsVerticalScrollIndicator={false}>
 
-          <Text className="text-xl font-bold text-black px-4 mb-3">Digital Safety</Text>
-          <View className="bg-white mx-4 rounded-2xl p-4 mb-6">
-
-            <FeatureRow
-              onPress={() => setShowBreachModal(true)}
-              title="Data Breach Alerts"
-              icon={<MaterialCommunityIcons name="monitor-screenshot" size={24} color="white" />}
-              color="#7762F0"
-              status="check"
-            />
-
-            <TouchableOpacity className="py-3 border-b border-gray-100 flex-row justify-between">
-              <Text className="text-gray-500">View all breaches</Text>
-              <Ionicons name="chevron-forward" size={16} color="#C7C7CC" />
+          {/* Top Section: Dashboard Stats */}
+          <Text className="text-white font-bold text-3xl px-4 mb-4 mt-4">Overview</Text>
+          <View className="flex-row px-4 gap-3 mb-6">
+            <TouchableOpacity
+              onPress={() => setShowEmergencyModal(true)}
+              className="flex-1 bg-[#162235]/60 border border-[#2b3d54]/50 rounded-3xl p-5"
+              activeOpacity={0.7}
+            >
+              <View className="flex-row justify-between items-center mb-3">
+                <View className="w-8 h-8 rounded-full bg-indigo-500/20 items-center justify-center">
+                  <Ionicons name="call" size={16} color="#a78bfa" />
+                </View>
+                <Text className="text-white font-bold text-xl">1</Text>
+              </View>
+              <Text className="text-white font-semibold text-sm mb-1">Emergency contacts</Text>
+              <Text className="text-slate-400 text-xs">Primary: Mobbin</Text>
             </TouchableOpacity>
 
-            <View className="pt-4">
-              <FeatureRow
-                title="ID Theft Protection"
-                icon={<Ionicons name="finger-print" size={24} color="white" />}
+            <TouchableOpacity
+              onPress={() => setShowCrimeModal(true)}
+              className="flex-1 bg-[#162235]/60 border border-[#2b3d54]/50 rounded-3xl p-5"
+              activeOpacity={0.7}
+            >
+              <View className="flex-row justify-between items-center mb-3">
+                <View className="w-8 h-8 rounded-full bg-amber-500/20 items-center justify-center">
+                  <Ionicons name="warning" size={16} color="#fbbf24" />
+                </View>
+                <Text className="text-white font-bold text-xl">--</Text>
+              </View>
+              <Text className="text-white font-semibold text-sm mb-1">Crime reports</Text>
+              <Text className="text-slate-400 text-xs">Local incidents</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Middle Section: Driving Summary Banner */}
+          <DriverInsightBanner />
+
+          {/* Bottom Section: Feature Grid */}
+          <View className="px-4 mb-2">
+            <Text className="text-white font-bold text-lg mb-4">Active safeguards</Text>
+            <View className="flex-row flex-wrap justify-between">
+              <FeatureTile
+                onPress={() => setShowBreachModal(true)}
+                title="Data breach alerts"
+                icon={<MaterialCommunityIcons name="monitor-screenshot" size={20} color="#a78bfa" />}
+                color="#7762F0"
+                status="check"
+              />
+              <FeatureTile
+                title="Crash detection"
+                icon={<Ionicons name="car-sport" size={20} color="#a78bfa" />}
+                color="#7762F0"
+                status="check"
+              />
+              <FeatureTile
+                title="Emergency dispatch"
+                icon={<FontAwesome5 name="ambulance" size={16} color="#a78bfa" />}
+                color="#7762F0"
+                status="check"
+              />
+              <FeatureTile
+                title="ID theft protection"
+                icon={<Ionicons name="finger-print" size={20} color="#a78bfa" />}
                 color="#7762F0"
                 status="toggle"
                 badgeText="Gold"
               />
             </View>
+          </View>
 
-            <View className="bg-[#FFF9F0] p-3 rounded-lg mt-2 flex-row items-center justify-between">
-              <Text className="text-[#9B6B28] text-xs flex-1 mr-2">
-                Get $25k reimbursement of stolen funds and restoration support. Learn more.
-              </Text>
-              <Ionicons name="chevron-forward" size={14} color="#9B6B28" />
+          {/* Info Bars */}
+          <View className="px-4 mb-8 gap-3">
+            <TouchableOpacity className="bg-[#111927] border border-[#24354f] rounded-2xl p-4 flex-row items-center justify-between">
+              <View className="flex-row items-center gap-3">
+                <View className="w-8 h-8 rounded-full bg-slate-800 items-center justify-center">
+                  <Ionicons name="search" size={16} color="#94a3b8" />
+                </View>
+                <Text className="text-slate-300 text-sm font-medium">Review security breaches</Text>
+              </View>
+              <Ionicons name="arrow-forward" size={16} color="#64748b" />
+            </TouchableOpacity>
+
+            <View className="bg-amber-950/20 border border-amber-500/20 rounded-2xl p-4 flex-row items-center justify-between">
+              <View className="flex-1 pr-4">
+                <Text className="text-amber-200/80 text-xs leading-5">
+                  Protection includes $25k reimbursement for stolen funds and dedicated restoration support.
+                </Text>
+              </View>
+              <TouchableOpacity className="bg-amber-500/20 px-3 py-1.5 rounded-full border border-amber-500/30">
+                <Text className="text-amber-400 text-[10px] font-bold">Details</Text>
+              </TouchableOpacity>
             </View>
           </View>
 
-
-          <Text className="text-xl font-bold text-black px-4 mb-3">Driving Safety</Text>
-          <View className="bg-white mx-4 rounded-2xl p-4 mb-6">
-            <FeatureRow
-              title="Crash Detection"
-              icon={<Ionicons name="car-sport" size={24} color="white" />}
-              color="#7762F0"
-              status="check"
-            />
-            <FeatureRow
-              title="Emergency Dispatch"
-              icon={<FontAwesome5 name="ambulance" size={18} color="white" />}
-              color="#7762F0"
-              status="check"
-            />
-          </View>
-
-          <View className="mx-4">
-            <DriverReportCard />
-          </View>
-
-
-          <Text className="text-xl font-bold text-black px-4 mb-3">Family Safety Assist</Text>
-          <View className="bg-white mx-4 rounded-2xl px-4 py-2 mb-6">
-            <FeatureRow
-              title="Roadside Assistance"
-              icon={<MaterialCommunityIcons name="tow-truck" size={24} color="white" />}
-              color="#7762F0"
-              status="arrow"
-              badgeText="Gold"
-            />
-            <FeatureRow
-              title="Disaster Response"
-              icon={<MaterialCommunityIcons name="helicopter" size={24} color="white" />}
-              color="#7762F0"
-              status="arrow"
-              badgeText="Platinum"
-            />
-            <FeatureRow
-              title="Medical Assistance"
-              icon={<Ionicons name="medkit" size={24} color="white" />}
-              color="#7762F0"
-              status="arrow"
-              badgeText="Platinum"
-            />
-            <FeatureRow
-              title="Travel Support"
-              icon={<Ionicons name="briefcase" size={24} color="white" />}
-              color="#7762F0"
-              status="arrow"
-              badgeText="Platinum"
-            />
-          </View>
-
-
-          <View className="flex-row mx-4 gap-4">
-            <TouchableOpacity
-              onPress={() => setShowEmergencyModal(true)}
-              className="flex-1 bg-white p-4 rounded-2xl  justify-between border border-gray-100 shadow-sm"
-              activeOpacity={0.7}
-            >
-              <View>
-                <Text className="font-bold text-black mb-3">Emergency Contacts</Text>
-                <Text className="text-xs text-gray-500">Mobbin</Text>
-              </View>
-              <View>
-                <View className="flex-row items-center mb-1">
-                  <Text className="font-bold text-xl mr-2">1</Text>
-                  <View className="bg-[#7762F0]/10 p-1 rounded">
-                    <Ionicons name="people" size={16} color="#7762F0" />
-                  </View>
-                </View>
-                <Text className="text-[10px] text-gray-500 font-medium">Contacts Added</Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => setShowCrimeModal(true)}
-              className="flex-1 bg-white p-4 rounded-2xl  justify-between border border-gray-100 shadow-sm"
-              activeOpacity={0.7}
-            >
-              <View>
-                <Text className="font-bold text-black mb-1">Crime Reports</Text>
-                <Text className="text-xs text-gray-500">Last 30 Days</Text>
-              </View>
-              <View>
-                <View className="flex-row items-center mb-1">
-                  <Text className="font-bold text-xl mr-2">--</Text>
-                  <View className="bg-[#F5A623]/20 rounded-full p-0.5">
-                    <Ionicons name="information-circle" size={20} color="#F5A623" />
-                  </View>
-                </View>
-                <Text className="text-[10px] text-gray-500 font-medium">Incidents Near You</Text>
-              </View>
-            </TouchableOpacity>
+          {/* Premium Benefits List */}
+          <View className="px-4 mb-8">
+            <Text className="text-white font-bold text-lg mb-4">Premium assistance</Text>
+            <View className="bg-[#111927] border border-[#24354f] rounded-3xl px-4 py-2">
+              <BenefitRow
+                title="Roadside assistance"
+                icon={<MaterialCommunityIcons name="tow-truck" size={18} color="#94a3b8" />}
+                badge="Gold"
+              />
+              <BenefitRow
+                title="Disaster response"
+                icon={<MaterialCommunityIcons name="helicopter" size={18} color="#94a3b8" />}
+                badge="Platinum"
+              />
+              <BenefitRow
+                title="Medical assistance"
+                icon={<Ionicons name="medkit" size={18} color="#94a3b8" />}
+                badge="Platinum"
+              />
+              <BenefitRow
+                title="Travel support"
+                icon={<Ionicons name="briefcase" size={18} color="#94a3b8" />}
+                badge="Platinum"
+              />
+            </View>
           </View>
 
         </ScrollView>
       </SafeAreaView>
+
       <DataBreachModal
         visible={showBreachModal}
         onClose={() => setShowBreachModal(false)}

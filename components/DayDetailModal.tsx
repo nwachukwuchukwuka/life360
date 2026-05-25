@@ -39,21 +39,17 @@ export const DayDetailModal = ({ visible, onClose, member }: Props) => {
             presentationStyle="pageSheet"
             onRequestClose={onClose}
         >
-            <SafeAreaView className="flex-1 bg-white" edges={['top']}>
+            <SafeAreaView className="flex-1 bg-[#090d16]" edges={['top']}>
                 {/* Header */}
-                <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-100">
-                    <TouchableOpacity onPress={onClose}>
-                        <Ionicons name="chevron-back" size={24} color="black" />
+                <View className="flex-row items-center justify-between px-4 py-4 border-b border-[#1d273a] bg-[#0b111e]">
+                    <TouchableOpacity onPress={onClose} className="w-10 h-10 rounded-full bg-[#162235] items-center justify-center border border-[#2b3d54]">
+                        <Ionicons name="close" size={20} color="#94a3b8" />
                     </TouchableOpacity>
-                    <Text className="text-base font-semibold">Day Detail</Text>
-                    <View className="w-6" />
-                </View>
-
-                {/* Date Display */}
-                <View className="py-2 items-center">
-                    <Text className="text-lg font-bold text-black">
-                        {dayName} · {monthDay}
-                    </Text>
+                    <View className="items-center">
+                        <Text className="text-lg font-bold text-white">Day detail</Text>
+                        <Text className="text-xs text-slate-400 font-medium mt-0.5">{dayName} · {monthDay}</Text>
+                    </View>
+                    <View className="w-10" />
                 </View>
 
                 {/* Map */}
@@ -71,15 +67,15 @@ export const DayDetailModal = ({ visible, onClose, member }: Props) => {
                     >
                         <Polyline
                             coordinates={locationHistory.slice(0, currentIndex + 1)}
-                            strokeColor="white"
-                            strokeWidth={3}
+                            strokeColor="#818cf8"
+                            strokeWidth={4}
                             lineDashPattern={[1]}
                         />
 
-                        <Marker coordinate={currentPosition}>
+                        <Marker coordinate={currentPosition} zIndex={2}>
                             <View className="items-center">
                                 <View
-                                    style={{ backgroundColor: member.color, borderColor: '#FBBF24', borderWidth: 3 }}
+                                    style={{ backgroundColor: member.color, borderColor: '#111927', borderWidth: 3 }}
                                     className="w-10 h-10 rounded-full items-center justify-center"
                                 >
                                     <Text className="text-white font-bold text-sm">{member.initial}</Text>
@@ -92,24 +88,31 @@ export const DayDetailModal = ({ visible, onClose, member }: Props) => {
                                 latitude: member.coordinate.latitude + 0.001,
                                 longitude: member.coordinate.longitude - 0.002,
                             }}
+                            zIndex={1}
                         >
-                            <View className="w-4 h-4 bg-blue-500 rounded-full border-2 border-white" />
+                            <View className="w-4 h-4 bg-emerald-500 rounded-full border border-[#111927]" />
                         </Marker>
                     </MapView>
                 </View>
 
                 {/* Bottom Timeline Scrubber */}
-                <View className="bg-white px-4 py-4 border-t border-gray-200 pb-14">
-                    <Slider
-                        style={{ width: '100%', height: 40 }}
-                        minimumValue={0}
-                        maximumValue={1}
-                        value={sliderValue}
-                        onValueChange={setSliderValue}
-                        minimumTrackTintColor="#9CA3AF"
-                        maximumTrackTintColor="#E5E7EB"
-                        thumbTintColor="#FFFFFF"
-                    />
+                <View className="bg-[#0b111e] px-6 py-6 border-t border-[#1d273a] pb-10">
+                    <View className="bg-[#111927] border border-[#24354f] p-4 rounded-3xl">
+                        <View className="flex-row justify-between mb-4 px-2">
+                            <Text className="text-indigo-400 font-semibold text-xs">Start of day</Text>
+                            <Text className="text-indigo-400 font-semibold text-xs">Current</Text>
+                        </View>
+                        <Slider
+                            style={{ width: '100%', height: 20 }}
+                            minimumValue={0}
+                            maximumValue={1}
+                            value={sliderValue}
+                            onValueChange={setSliderValue}
+                            minimumTrackTintColor="#818cf8"
+                            maximumTrackTintColor="#1d273a"
+                            thumbTintColor="#ffffff"
+                        />
+                    </View>
                 </View>
             </SafeAreaView>
         </Modal>

@@ -2,7 +2,7 @@ import React, { createContext, ReactNode, useContext, useState } from 'react';
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  user: { name: string; email: string } | null; 
+  user: { name: string; email: string } | null;
   isLoading: boolean;
   signIn: () => void;
   signOut: () => void;
@@ -11,9 +11,9 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  
+
   const [user, setUser] = useState<{ name: string; email: string } | null>({
     name: 'Mobbin',
     email: 'mobbin.design@gmail.com'

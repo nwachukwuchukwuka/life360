@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface CircleData {
     id: string;
@@ -11,75 +12,94 @@ interface CircleData {
 }
 
 interface Props {
-  onClose: () => void;
-  circles: CircleData[]; 
-  onSelect: (id: string) => void; 
-  onCreate: () => void; 
+    onClose: () => void;
+    circles: CircleData[];
+    onSelect: (id: string) => void;
+    onCreate: () => void;
 }
 
 export const CircleSelect = ({ onClose, circles, onSelect, onCreate }: Props) => {
-  return (
-      <View className="flex-1 bg-black/30" onTouchEnd={onClose}>
-        <View 
-            className="bg-white w-full shadow-xl overflow-hidden pb-4 rounded-b-2xl" 
-            onTouchEnd={e => e.stopPropagation()}
-        >
-            
+    return (
+        <SafeAreaView className="">
+
+            {/* List Body */}
             <FlatList
-                data={circles} 
+                data={circles}
                 keyExtractor={item => item.id}
+                // contentContainerStyle={{ padding: 24, paddingBottom: 100 }}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
-                    <TouchableOpacity 
-                        className={`flex-row items-center justify-between p-4 ${item.active ? 'bg-gray-50' : 'bg-white'}`}
+                    <TouchableOpacity
                         onPress={() => onSelect(item.id)}
+                        activeOpacity={0.8}
+                        className={`mb-4 rounded-[28px] p-6 border ${item.active
+                            ? 'bg-indigo-500/10 border-indigo-500/40'
+                            : 'bg-[#111927] border-[#24354f]'
+                            }`}
                     >
-                        <View className="flex-row items-center">
-                            <Image 
-                                source={{ uri: item.image }} 
-                                className="w-12 h-12 rounded-full mr-3" 
-                            />
-                            {item.active && (
-                                <View className="absolute bottom-0 left-8 w-5 h-5 bg-[#FF885B] rounded-full border-2 border-white items-center justify-center">
-                                    <Text className="text-white text-[10px] font-bold">J</Text>
+                        <View className="flex-row items-center justify-between">
+                            <View className="flex-row items-center flex-1">
+                                <View className={`w-14 h-14 rounded-full border-2 overflow-hidden mr-4 ${item.active ? 'border-indigo-400' : 'border-[#2b3d54]'}`}>
+                                    <Image source={{ uri: item.image }} className="w-full h-full" />
+                                </View>
+                                <View className="flex-1 pr-2">
+                                    <Text className={`text-xl font-bold mb-1 ${item.active ? 'text-indigo-300' : 'text-white'}`}>
+                                        {item.name}
+                                    </Text>
+                                    {item.role ? (
+                                        <Text className="text-emerald-400 text-sm font-semibold">
+                                            {item.role}
+                                        </Text>
+                                    ) : (
+                                        <Text className="text-slate-500 text-sm">
+                                            Standard member
+                                        </Text>
+                                    )}
+                                </View>
+                            </View>
+
+                            {/* Active State Indicator */}
+                            {item.active ? (
+                                <View className="w-8 h-8 rounded-full bg-indigo-500/20 items-center justify-center border border-indigo-500/40">
+                                    <View className="w-3 h-3 bg-indigo-400 rounded-full" />
+                                </View>
+                            ) : (
+                                <View className="w-8 h-8 rounded-full bg-[#162235] items-center justify-center border border-[#2b3d54]">
+                                    <View className="w-3 h-3 bg-[#2b3d54] rounded-full" />
                                 </View>
                             )}
-                            
-                            <View>
-                                <Text className="font-bold text-base text-black">{item.name}</Text>
-                                {item.role ? (
-                                    <View className="flex-row items-center mt-0.5">
-                                        <Ionicons name="star" size={10} color="#4CD964" />
-                                        <Text className="text-black text-xs ml-1">{item.role}</Text>
-                                    </View>
-                                ) : null}
-                            </View>
                         </View>
-
-                        {item.active && (
-                            <Ionicons name="checkmark" size={24} color="#7762F0" />
-                        )}
                     </TouchableOpacity>
                 )}
-                ItemSeparatorComponent={() => <View className="h-[1px] bg-gray-100 mx-4" />}
+
+                /* Grid Layout for the action buttons at the bottom */
+                ListFooterComponent={() => (
+                    <View className="flex-row gap-4 mt-6">
+                        <TouchableOpacity
+                            onPress={onCreate}
+                            activeOpacity={0.7}
+                            className="flex-1 bg-[#0b111e] border border-dashed border-[#2b3d54] rounded-[28px] p-6 items-center justify-center"
+                        >
+                            <View className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 items-center justify-center mb-3">
+                                <Ionicons name="add" size={24} color="#34d399" />
+                            </View>
+                            <Text className="text-white font-semibold text-base">Create new</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={onClose}
+                            activeOpacity={0.7}
+                            className="flex-1 bg-[#0b111e] border border-dashed border-[#2b3d54] rounded-[28px] p-6 items-center justify-center"
+                        >
+                            <View className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 items-center justify-center mb-3">
+                                <Ionicons name="enter-outline" size={24} color="#fbbf24" />
+                            </View>
+                            <Text className="text-white font-semibold text-base">Join existing</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             />
 
-            <View className="flex-row gap-3 px-4 pt-4 mt-2 border-t border-gray-100">
-                <TouchableOpacity 
-                    className="flex-1 py-3 rounded-full bg-[#7762F0] items-center"
-                    onPress={onCreate} 
-                >
-                    <Text className="text-white font-bold">Create a Circle</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity 
-                    className="flex-1 py-3 rounded-full bg-[#7762F0] items-center"
-                    onPress={onClose}
-                >
-                    <Text className="text-white font-bold">Join a Circle</Text>
-                </TouchableOpacity>
-            </View>
-
-        </View>
-      </View>
-  );
+        </SafeAreaView>
+    );
 };

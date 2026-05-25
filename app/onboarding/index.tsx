@@ -1,88 +1,87 @@
-import OnboardingItem from '@/components/onboarding/OnboardingItem';
-import Paginator from '@/components/Paginator';
-import { COLORS, ONBOARDING_SLIDES } from '@/constants';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useRef, useState } from 'react';
-import { FlatList, StatusBar, Text, TouchableOpacity, View, ViewToken } from 'react-native';
-import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import React from 'react';
+import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 export default function OnboardingScreen() {
     const router = useRouter();
-    const scrollX = useSharedValue(0);
-    const flatListRef = useRef<FlatList>(null);
-
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    const scrollHandler = useAnimatedScrollHandler({
-        onScroll: (event) => {
-            scrollX.value = event.contentOffset.x;
-        },
-    });
-
-    const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: ViewToken[] }) => {
-        if (viewableItems.length > 0 && viewableItems[0].index !== null) {
-            setCurrentIndex(viewableItems[0].index);
-        }
-    }).current;
-
-    const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
     return (
-        <View className="flex-1 bg-black">
-            <StatusBar barStyle="light-content" />
+        <SafeAreaView className="flex-1 bg-[#090D16]" edges={['top', 'bottom']}>
+            <StatusBar barStyle="light-content" backgroundColor="#090D16" />
 
-            <SafeAreaView className="absolute top-0 z-10 w-full items-center pt-2" edges={['top']}>
-                <View className="flex-row items-center justify-center gap-2">
-                    <Ionicons name="location-outline" size={32} color="white" />
-                    <Text className="text-white text-2xl font-bold tracking-wide">
-                        Life360
+            <View className="px-6 mt-10 mb-8">
+                <View className="w-14 h-14 rounded-2xl bg-[#162235] items-center justify-center border border-[#2B3D54] mb-6">
+                    <Ionicons name="shield-checkmark" size={28} color="#A78BFA" />
+                </View>
+
+                <Text className="text-white text-4xl font-bold mb-1">
+                    Your Family,
+                </Text>
+                <Text className="text-[#818CF8] text-4xl font-bold mb-4">
+                    Protected.
+                </Text>
+
+                <Text className="text-[#94A3B8] text-base leading-relaxed">
+                    Advanced location sharing, crash detection, and driving analytics in one unified dashboard.
+                </Text>
+            </View>
+
+            <View className="flex-1 px-6 gap-4">
+                <View className="flex-row items-center p-4 rounded-3xl bg-[#111927] border border-[#24354F]">
+                    <View className="w-12 h-12 rounded-2xl bg-[#34D399]/10 items-center justify-center mr-4">
+                        <Ionicons name="location" size={24} color="#34D399" />
+                    </View>
+                    <View className="flex-1">
+                        <Text className="text-white text-lg font-semibold">Real-time Location</Text>
+                        <Text className="text-[#64748B] text-sm mt-1">Keep track of your loved ones</Text>
+                    </View>
+                </View>
+
+                <View className="flex-row items-center p-4 rounded-3xl bg-[#1E1B4B] border border-[#4338CA]">
+                    <View className="w-12 h-12 rounded-2xl bg-[#818CF8]/20 items-center justify-center mr-4">
+                        <Ionicons name="car" size={24} color="#818CF8" />
+                    </View>
+                    <View className="flex-1">
+                        <Text className="text-white text-lg font-semibold">Driving Analytics</Text>
+                        <Text className="text-indigo-200/70 text-sm mt-1">Smart insights & reports</Text>
+                    </View>
+                </View>
+
+                <View className="flex-row items-center p-4 rounded-3xl bg-[#111927] border border-[#24354F]">
+                    <View className="w-12 h-12 rounded-2xl bg-[#A78BFA]/10 items-center justify-center mr-4">
+                        <Ionicons name="warning" size={24} color="#A78BFA" />
+                    </View>
+                    <View className="flex-1">
+                        <Text className="text-white text-lg font-semibold">Crash Detection</Text>
+                        <Text className="text-[#64748B] text-sm mt-1">24/7 emergency response</Text>
+                    </View>
+                </View>
+            </View>
+
+            <View className="px-6 pt-6 pb-4 bg-[#0B111E] border-t border-[#1D273A]">
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    className="w-full bg-[#818CF8] py-4 rounded-2xl items-center justify-center mb-3 flex-row"
+                    onPress={() => router.push('/onboarding/phone-screen')}
+                >
+                    <Text className="text-white text-lg font-semibold mr-2">
+                        Create Account
                     </Text>
-                </View>
-            </SafeAreaView>
+                    <Ionicons name="arrow-forward" size={20} color="white" />
+                </TouchableOpacity>
 
-            <AnimatedFlatList
-                ref={flatListRef}
-                data={ONBOARDING_SLIDES}
-                renderItem={({ item }) => <OnboardingItem item={item as any} />}
-                keyExtractor={(item: any) => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                pagingEnabled
-                bounces={false}
-                onScroll={scrollHandler}
-                scrollEventThrottle={32}
-                onViewableItemsChanged={onViewableItemsChanged}
-                viewabilityConfig={viewConfig}
-            />
-
-            <SafeAreaView className="absolute bottom-0 w-full items-center pb-6" edges={['bottom']}>
-                <View className="w-full px-6 items-center gap-6">
-
-                    <Paginator data={ONBOARDING_SLIDES} scrollX={scrollX} />
-
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        className="w-full py-4 rounded-full items-center justify-center"
-                        style={{ backgroundColor: COLORS.primary }}
-                        onPress={() => router.push('/onboarding/phone-screen')}
-                    >
-                        <Text className="text-white text-lg font-semibold">
-                            Get started
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => console.log('Sign In Pressed')}>
-                        <Text className="text-white font-medium">
-                            Already have an account? <Text className="font-bold">Sign In</Text>
-                        </Text>
-                    </TouchableOpacity>
-
-                </View>
-            </SafeAreaView>
-        </View>
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    className="w-full bg-[#162235] py-4 rounded-2xl items-center justify-center border border-[#2B3D54]"
+                    onPress={() => console.log('Sign In Pressed')}
+                >
+                    <Text className="text-slate-200 text-base font-medium">
+                        Log into existing account
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        </SafeAreaView>
     );
 }

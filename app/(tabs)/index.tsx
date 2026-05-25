@@ -1,24 +1,22 @@
 import { CheckInModal } from '@/components/CheckInModal';
 import { InviteMemberModal } from '@/components/InviteMemberModal';
 import { FamilyMember, PeopleSheet } from '@/components/PeopleSheet';
-import { COLORS, FAMILY_MEMBERS } from '@/constants';
-import { Entypo, Ionicons } from '@expo/vector-icons';
-import BottomSheet from '@gorhom/bottom-sheet';
+import { FAMILY_MEMBERS } from '@/constants';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useRef, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LocationScreen = () => {
     // Refs
-    const bottomSheetRef = useRef<BottomSheet>(null);
     const [showInviteModal, setShowInviteModal] = useState(false);
     const [showCheckInModal, setShowCheckInModal] = useState(false);
 
     const handleCheckInPress = () => {
         setShowCheckInModal(true);
-    }; 
+    };
 
     const router = useRouter();
     const [successMsg, setSuccessMsg] = useState<string | null>(null);
@@ -39,7 +37,7 @@ const LocationScreen = () => {
     };
 
     return (
-        <View className="flex-1 bg-slate-950">
+        <View className="flex-1 bg-[#090d16]">
             <SafeAreaView className="flex-1" edges={['top', 'left', 'right']}>
                 {/* Dashboard Header */}
                 <View className="px-5 pt-3 pb-5 flex-row justify-between items-center">
@@ -47,14 +45,14 @@ const LocationScreen = () => {
                         <Text className="text-xs text-indigo-400 font-semibold">Family space</Text>
                         <Text className="text-2xl font-bold text-white mt-0.5">Live Monitoring</Text>
                     </View>
-                    <View className="bg-slate-900 border border-slate-800/80 px-3.5 py-1.5 rounded-full flex-row items-center gap-2">
+                    {/* <View className="bg-slate-900 border border-slate-800/80 px-3.5 py-1.5 rounded-full flex-row items-center gap-2">
                         <View className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                         <Text className="text-[11px] text-emerald-400 font-medium">All members safe</Text>
-                    </View>
+                    </View> */}
                 </View>
 
                 {/* Map Widget Card */}
-                <View className="mx-5 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl h-[42%] bg-slate-900">
+                <View className="mx-5 rounded-3xl overflow-hidden border border-slate-800 h-[42%]">
                     <MapView
                         provider={PROVIDER_DEFAULT}
                         style={{ width: '100%', height: '100%' }}
@@ -76,52 +74,61 @@ const LocationScreen = () => {
                     </MapView>
                 </View>
 
-                {/* Action Control Panel */}
-                <View className="px-5 mt-6">
-                    <Text className="text-xs text-slate-500 font-semibold mb-3">Quick actions</Text>
-                    <View className="flex-row gap-4">
-                        {/* Check In Action Card */}
-                        <TouchableOpacity
-                            onPress={handleCheckInPress}
-                            className="flex-1 bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-2xl flex-row items-center gap-3 active:bg-indigo-500/20"
-                        >
-                            <View className="bg-indigo-500/20 rounded-xl p-2.5">
-                                <Ionicons name="checkmark-circle-outline" size={22} color="#818CF8" />
-                            </View>
-                            <View className="flex-1">
-                                <Text className="text-white text-sm font-semibold">Check in</Text>
-                                <Text className="text-slate-400 text-xs mt-0.5">Update location</Text>
-                            </View>
-                        </TouchableOpacity>
+                {/* Scrollable Control Panel */}
+                <ScrollView className="flex-1" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
+                    <View className="px-5 mt-6">
+                        <Text className="text-lg text-white font-semibold mb-3">Quick actions</Text>
+                        <View className="flex-row gap-4">
+                            {/* Check In Action Card */}
+                            <TouchableOpacity
+                                onPress={handleCheckInPress}
+                                className="flex-1 bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-2xl flex-row items-center gap-3 active:bg-indigo-500/20"
+                            >
+                                <View className="bg-indigo-500/20 rounded-xl p-2.5">
+                                    <Ionicons name="checkmark-circle-outline" size={22} color="#818CF8" />
+                                </View>
+                                <View className="flex-1">
+                                    <Text className="text-white text-sm font-semibold">Check in</Text>
+                                    <Text className="text-slate-400 text-xs mt-0.5">Update location</Text>
+                                </View>
+                            </TouchableOpacity>
 
-                        {/* SOS Action Card */}
-                        <TouchableOpacity
-                            onPress={() => router.push('/sos')}
-                            className="flex-1 bg-rose-500/10 border border-rose-500/20 p-4 rounded-2xl flex-row items-center gap-3 active:bg-rose-500/20"
-                        >
-                            <View className="bg-rose-500/20 rounded-xl p-2.5">
-                                <Ionicons name="alert-circle-outline" size={22} color="#F87171" />
-                            </View>
-                            <View className="flex-1">
-                                <Text className="text-white text-sm font-semibold">Send alert</Text>
-                                <Text className="text-slate-400 text-xs mt-0.5">Emergency sos</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
-                    {/* Styled Map Option Layer Widget */}
-                    <View className="mt-4 flex-row justify-between items-center bg-slate-900/60 border border-slate-800/60 rounded-2xl p-3.5">
-                        <View className="flex-row items-center gap-3">
-                            <View className="bg-slate-800 rounded-xl p-2">
-                                <Ionicons name="map-outline" size={18} color="#94A3B8" />
-                            </View>
-                            <Text className="text-slate-300 text-sm font-medium">Standard map view</Text>
+                            {/* SOS Action Card */}
+                            <TouchableOpacity
+                                onPress={() => router.push('/sos')}
+                                className="flex-1 bg-rose-500/10 border border-rose-500/20 p-4 rounded-2xl flex-row items-center gap-3 active:bg-rose-500/20"
+                            >
+                                <View className="bg-rose-500/20 rounded-xl p-2.5">
+                                    <Ionicons name="alert-circle-outline" size={22} color="#F87171" />
+                                </View>
+                                <View className="flex-1">
+                                    <Text className="text-white text-sm font-semibold">Send alert</Text>
+                                    <Text className="text-slate-400 text-xs mt-0.5">Emergency sos</Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity className="bg-slate-800 px-3.5 py-2 rounded-xl active:bg-slate-700">
-                            <Text className="text-slate-200 text-xs font-semibold">Change</Text>
-                        </TouchableOpacity>
+
+                        {/* Styled Map Option Layer Widget */}
+                        <View className="mt-4 flex-row justify-between items-center bg-slate-900/60 border border-slate-800/60 rounded-2xl p-3.5">
+                            <View className="flex-row items-center gap-3">
+                                <View className="bg-slate-800 rounded-xl p-2">
+                                    <Ionicons name="map-outline" size={18} color="#94A3B8" />
+                                </View>
+                                <Text className="text-slate-300 text-sm font-medium">Standard map view</Text>
+                            </View>
+                            <TouchableOpacity className="bg-slate-800 px-3.5 py-2 rounded-xl active:bg-slate-700">
+                                <Text className="text-slate-200 text-xs font-semibold">Change</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* People list component */}
+                        <PeopleSheet
+                            members={FAMILY_MEMBERS}
+                            onMemberPress={handleMemberPress}
+                            onAddMemberPress={() => setShowInviteModal(true)}
+                        />
                     </View>
-                </View>
+                </ScrollView>
             </SafeAreaView>
 
             {/* Success Overlay Toast */}
@@ -138,14 +145,6 @@ const LocationScreen = () => {
                     </View>
                 </SafeAreaView>
             )}
-
-            {/* Modals and Bottom Sheets */}
-            <PeopleSheet
-                ref={bottomSheetRef}
-                members={FAMILY_MEMBERS}
-                onMemberPress={handleMemberPress}
-                onAddMemberPress={() => setShowInviteModal(true)}
-            />
 
             <CheckInModal
                 visible={showCheckInModal}

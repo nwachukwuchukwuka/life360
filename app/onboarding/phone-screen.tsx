@@ -18,8 +18,6 @@ export default function PhoneScreen() {
     const router = useRouter();
     const [phoneNumber, setPhoneNumber] = useState('');
     const [selectedCountry, setSelectedCountry] = useState<Country>(COUNTRIES[0]);
-
-    // State for Modal
     const [showCountryPicker, setShowCountryPicker] = useState(false);
 
     const handleContinue = () => {
@@ -27,44 +25,71 @@ export default function PhoneScreen() {
     };
 
     return (
-        <SafeAreaView edges={['top']} className="flex-1 px-6">
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="flex-1">
-                <View className="flex-1 items-center pt-10">
+        <SafeAreaView edges={['top']} className="flex-1 bg-[#090D16]">
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                className="flex-1"
+            >
+                <View className="flex-1 justify-between px-6 pt-8 pb-6">
 
-                    {/* Header */}
-                    <Text className="text-white text-2xl font-bold text-center mb-10 leading-8">
-                        Let's get started. What's{'\n'}your number?
-                    </Text>
+                    {/* Top Section: Header & Inputs */}
+                    <View>
+                        {/* Icon Badge */}
+                        <View className="w-12 h-12 rounded-2xl bg-[#162235] items-center justify-center border border-[#2B3D54] mb-6">
+                            <Ionicons name="call" size={24} color="#818CF8" />
+                        </View>
 
-                    {/* Input Area */}
-                    <View className="flex-row items-center justify-center gap-2">
-                        {/* Country Trigger */}
-                        <TouchableOpacity
-                            onPress={() => setShowCountryPicker(true)} // Open Modal
-                            className="bg-white/10 px-3 py-2 rounded-lg flex-row items-center gap-1"
-                        >
-                            <Text className="text-xl">🇺🇸</Text>
-                            <Text className="text-white text-xl font-medium">{selectedCountry.dial}</Text>
-                            <Ionicons name="chevron-down" size={16} color="white" />
-                        </TouchableOpacity>
+                        {/* Text Content */}
+                        <Text className="text-white text-3xl font-bold mb-2">
+                            Enter your mobile number
+                        </Text>
+                        <Text className="text-[#94A3B8] text-base mb-10 leading-relaxed">
+                            We use this to secure your account and connect you with your circle.
+                        </Text>
 
-                        {/* Phone Input */}
-                        <TextInput
-                            className="text-white text-3xl font-medium min-w-[200px]"
-                            placeholder="(201) 555-0123"
-                            placeholderTextColor="rgba(255,255,255,0.3)"
-                            keyboardType="phone-pad"
-                            autoFocus
-                            value={phoneNumber}
-                            onChangeText={setPhoneNumber}
-                            selectionColor="white"
-                        />
+                        {/* Input Container */}
+                        <View className="gap-4">
+                            {/* Region Selector */}
+                            <TouchableOpacity
+                                activeOpacity={0.7}
+                                onPress={() => setShowCountryPicker(true)}
+                                className="w-full flex-row items-center justify-between bg-[#111927] border border-[#24354F] rounded-2xl p-4"
+                            >
+                                <View>
+                                    <Text className="text-[#64748B] text-xs font-medium mb-1">Region</Text>
+                                    <Text className="text-white text-base font-semibold">{selectedCountry.name}</Text>
+                                </View>
+                                <View className="w-8 h-8 rounded-full bg-[#162235] items-center justify-center border border-[#2B3D54]">
+                                    <Ionicons name="chevron-down" size={16} color="#94A3B8" />
+                                </View>
+                            </TouchableOpacity>
+
+                            {/* Phone Input Card */}
+                            <View className="w-full flex-row items-center bg-[#111927] border border-[#24354F] rounded-2xl p-4">
+                                <View className="flex-row items-center pr-4 border-r border-[#1D273A]">
+                                    <Text className="text-[#818CF8] text-lg font-bold">
+                                        {selectedCountry.dial}
+                                    </Text>
+                                </View>
+
+                                <TextInput
+                                    className="flex-1 text-white text-lg font-medium pl-4"
+                                    placeholder="555-0123"
+                                    placeholderTextColor="#64748B"
+                                    keyboardType="phone-pad"
+                                    autoFocus
+                                    value={phoneNumber}
+                                    onChangeText={setPhoneNumber}
+                                    selectionColor="#818CF8"
+                                />
+                            </View>
+                        </View>
                     </View>
 
-                    {/* Footer */}
-                    <View className="flex-1 justify-end w-full pb-4">
-                        <Text className="text-white/60 text-xs text-center mb-6 px-4">
-                            By signing up you accept our terms of service and privacy policy.
+                    {/* Bottom Section: Terms & Button */}
+                    <View className="pt-4">
+                        <Text className="text-[#64748B] text-sm mb-5 leading-tight">
+                            By continuing, you agree to our terms of service and privacy policy guidelines.
                         </Text>
 
                         <OnboardingButton
@@ -73,10 +98,10 @@ export default function PhoneScreen() {
                             onPress={handleContinue}
                         />
                     </View>
+
                 </View>
             </KeyboardAvoidingView>
 
-            {/* Standard Modal */}
             <CountryPickerModal
                 visible={showCountryPicker}
                 onClose={() => setShowCountryPicker(false)}

@@ -1,5 +1,4 @@
 import { PlaceSuccessModal } from '@/components/PlaceSuccessModal';
-import { COLORS } from '@/constants';
 import { Ionicons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -34,40 +33,46 @@ export default function AddPlaceScreen() {
     };
 
     return (
-        <View className="flex-1 bg-white">
+        <View className="flex-1 bg-[#090d16]">
             <SafeAreaView className="flex-1" edges={['top']}>
 
                 {/* 1. Header */}
-                <View className="flex-row items-center justify-between px-4 py-2 border-b border-gray-100 bg-white z-10">
-                    <TouchableOpacity onPress={() => router.back()}>
-                        <Ionicons name="close" size={28} color="black" />
+                <View className="flex-row items-center justify-between px-4 py-4 border-b border-[#1d273a] bg-[#0b111e] z-10">
+                    <TouchableOpacity onPress={() => router.back()} className="w-10 h-10 rounded-full bg-[#162235] items-center justify-center border border-[#2b3d54]">
+                        <Ionicons name="close" size={20} color="#94a3b8" />
                     </TouchableOpacity>
-                    <Text className="text-lg font-bold">Add Place</Text>
-                    <TouchableOpacity onPress={handleSave}>
-                        <Text className="text-[#7762F0] font-bold text-sm">SAVE</Text>
+                    <Text className="text-lg font-bold text-white">Add place</Text>
+                    <TouchableOpacity 
+                        onPress={handleSave} 
+                        className="px-4 py-2 bg-indigo-500/20 border border-indigo-500/30 rounded-full"
+                    >
+                        <Text className="text-indigo-400 font-bold text-sm">Save</Text>
                     </TouchableOpacity>
                 </View>
 
-                {/* 2. Inputs */}
-                <View className="px-6 py-4 bg-white z-10 shadow-sm">
+                {/* 2. Inputs Box */}
+                <View className="px-5 py-5 bg-[#0b111e] border-b border-[#1d273a] z-10">
                     {/* Name Input */}
-                    <View className="flex-row items-center border-b border-gray-200 pb-3 mb-4">
-                        <Ionicons name="bookmark" size={20} color="#C7C7CC" />
+                    <View className="flex-row items-center bg-[#111927] border border-[#24354f] rounded-2xl px-4 py-1 mb-4 h-14">
+                        <Ionicons name="bookmark" size={20} color="#818cf8" />
                         <TextInput
-                            className="flex-1 ml-3 text-lg font-medium text-black"
+                            className="flex-1 ml-3 text-base font-medium text-white"
                             placeholder="Name this place"
+                            placeholderTextColor="#475569"
                             value={name}
                             onChangeText={setName}
                         />
                         {name.length > 0 && (
-                            <Ionicons name="checkmark" size={20} color="#34C759" />
+                            <View className="w-6 h-6 rounded-full bg-emerald-500/20 items-center justify-center border border-emerald-500/30">
+                                <Ionicons name="checkmark" size={14} color="#34d399" />
+                            </View>
                         )}
                     </View>
 
-                    {/* Address Display (Static for demo) */}
-                    <View className="flex-row items-center">
-                        <Ionicons name="location-sharp" size={20} color="#C7C7CC" />
-                        <Text className="ml-3 text-base text-black font-medium">81 Choa Chu Kang Way</Text>
+                    {/* Address Display */}
+                    <View className="flex-row items-center px-2">
+                        <Ionicons name="location" size={18} color="#94a3b8" />
+                        <Text className="ml-3 text-sm text-slate-400 font-medium">81 Choa Chu Kang Way</Text>
                     </View>
                 </View>
 
@@ -77,17 +82,16 @@ export default function AddPlaceScreen() {
                         provider={PROVIDER_DEFAULT}
                         style={{ width: '100%', height: '100%' }}
                         region={coordinate}
-                        // Update coordinate when map moves
                         onRegionChangeComplete={(region) => setCoordinate(region)}
                     >
                         {/* Center Marker */}
                         <Marker coordinate={coordinate}>
                             <View className="items-center justify-center">
-                                <View className="w-8 h-8 bg-white rounded-full items-center justify-center shadow-md">
-                                    <Ionicons name="location" size={20} color={COLORS.primary} />
+                                <View className="w-10 h-10 bg-[#162235] border-2 border-indigo-500 rounded-full items-center justify-center">
+                                    <Ionicons name="business" size={18} color="#818cf8" />
                                 </View>
                                 {/* Pin Stem */}
-                                <View className="w-1 h-3 bg-black/20" />
+                                <View className="w-1 h-3 bg-indigo-500" />
                             </View>
                         </Marker>
 
@@ -95,37 +99,39 @@ export default function AddPlaceScreen() {
                         <Circle
                             center={coordinate}
                             radius={radius}
-                            fillColor="rgba(119, 98, 240, 0.2)" 
-                            strokeColor="rgba(119, 98, 240, 0.5)"
-                            strokeWidth={1}
+                            fillColor="rgba(99, 102, 241, 0.15)" 
+                            strokeColor="rgba(99, 102, 241, 0.4)"
+                            strokeWidth={2}
                         />
                     </MapView>
 
-                    {/* Map Controls Overlay (Satellite/Location) */}
-                    <View className="absolute bottom-36 right-4 gap-3">
-                        <TouchableOpacity className="w-10 h-10 bg-white rounded-full items-center justify-center shadow-md">
-                            <Ionicons name="locate" size={20} color={COLORS.primary} />
+                    {/* Map Controls Overlay */}
+                    <View className="absolute bottom-36 right-5 gap-4">
+                        <TouchableOpacity className="w-12 h-12 bg-[#111927] rounded-full items-center justify-center border border-[#24354f]">
+                            <Ionicons name="locate" size={20} color="#a78bfa" />
                         </TouchableOpacity>
-                        <TouchableOpacity className="w-10 h-10 bg-white rounded-full items-center justify-center shadow-md">
-                            <Ionicons name="map-outline" size={20} color={COLORS.primary} />
+                        <TouchableOpacity className="w-12 h-12 bg-[#111927] rounded-full items-center justify-center border border-[#24354f]">
+                            <Ionicons name="map" size={20} color="#a78bfa" />
                         </TouchableOpacity>
                     </View>
 
                     {/* 4. Radius Slider Bar */}
-                    <View className="absolute bottom-0 w-full bg-white px-6 pt-4 pb-8 rounded-t-2xl shadow-lg">
-                        <View className="flex-row justify-between items-center mb-2">
-                            <Ionicons name="remove-circle-outline" size={24} color="#C7C7CC" />
-                            <Text className="text-gray-500 font-bold">{Math.round(radius)} m zone</Text>
-                            <Ionicons name="add-circle-outline" size={24} color="#C7C7CC" />
+                    <View className="absolute bottom-0 w-full bg-[#0b111e]/95 px-6 pt-5 pb-8 rounded-t-3xl border-t border-[#1d273a]">
+                        <View className="flex-row justify-between items-center mb-3">
+                            <Ionicons name="remove-circle" size={24} color="#475569" />
+                            <View className="bg-[#111927] px-4 py-1.5 rounded-full border border-[#24354f]">
+                                <Text className="text-indigo-400 font-bold text-xs">{Math.round(radius)}m zone</Text>
+                            </View>
+                            <Ionicons name="add-circle" size={24} color="#475569" />
                         </View>
 
                         <Slider
                             style={{ width: '100%', height: 40 }}
                             minimumValue={50}
                             maximumValue={1000}
-                            minimumTrackTintColor={COLORS.primary}
-                            maximumTrackTintColor="#E5E7EB"
-                            thumbTintColor={COLORS.primary} // Purple Thumb
+                            minimumTrackTintColor="#818cf8"
+                            maximumTrackTintColor="#1d273a"
+                            thumbTintColor="#ffffff"
                             value={radius}
                             onValueChange={setRadius}
                         />

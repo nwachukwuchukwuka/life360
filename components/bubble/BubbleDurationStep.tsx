@@ -1,4 +1,3 @@
-import { COLORS } from '@/constants';
 import React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 
@@ -21,16 +20,14 @@ export const BubbleDurationStep = ({ duration, setDuration, onNext }: Props) => 
     };
 
     return (
-        <View className="flex-1 items-center justify-center px-6 pt-14">
-            <Text className="text-2xl font-bold text-center mb-20">
-                How long will you be in{'\n'}this Bubble?
+        <View className="flex-1 bg-[#090d16] items-center justify-center px-6 pt-14">
+            <Text className="text-2xl font-bold text-white text-center mb-20 leading-8">
+                How long will you be in{'\n'}this bubble?
             </Text>
 
             <View className="h-[250px] w-full items-center justify-center relative mb-10">
-                
-                <View className="absolute w-full h-[50px] bg-gray-100 rounded-xl flex-row items-center justify-center z-0">
-                   
-                     <Text className="text-xl font-bold text-black pl-20">Hours</Text>
+                <View className="absolute w-full h-[50px] bg-[#111927] border border-[#24354f] rounded-2xl flex-row items-center justify-center z-0">
+                     <Text className="text-xl font-bold text-indigo-400 pl-20">Hours</Text>
                 </View>
 
                 <View className="h-full w-full z-10">
@@ -44,7 +41,7 @@ export const BubbleDurationStep = ({ duration, setDuration, onNext }: Props) => 
                         contentContainerStyle={{ paddingVertical: 100 }} 
                         renderItem={({ item }) => (
                             <View style={{ height: ITEM_HEIGHT }} className="items-center justify-center pr-16">
-                                <Text className={`text-3xl font-bold ${item === duration ? 'text-black' : 'text-gray-300'}`}>
+                                <Text className={`text-3xl font-bold ${item === duration ? 'text-white' : 'text-slate-600'}`}>
                                     {item}
                                 </Text>
                             </View>
@@ -55,10 +52,9 @@ export const BubbleDurationStep = ({ duration, setDuration, onNext }: Props) => 
 
             <TouchableOpacity 
                 onPress={onNext}
-                style={{ backgroundColor: COLORS.primary }}
-                className="w-full py-4 rounded-full items-center mt-auto mb-6"
+                className="w-full py-4 rounded-full items-center mt-auto mb-6 bg-indigo-600/20 border border-indigo-500/30"
             >
-                <Text className="text-white font-bold text-lg">Continue</Text>
+                <Text className="text-indigo-400 font-bold text-lg">Continue</Text>
             </TouchableOpacity>
         </View>
     );

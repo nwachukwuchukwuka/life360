@@ -49,7 +49,7 @@ export const PremiumDetailModal = ({ visible, onClose, feature }: Props) => {
                             <Text className="text-gray-600 text-base leading-6">
                                 You can choose the unique name and size of each Place on your map.
                             </Text>
-                        </View> 
+                        </View>
                     )}
                 </ScrollView>
             </SafeAreaView>

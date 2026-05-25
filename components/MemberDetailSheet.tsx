@@ -1,8 +1,7 @@
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { forwardRef, useMemo } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { FamilyMember } from './PeopleSheet';
 
 interface Props {
@@ -12,109 +11,97 @@ interface Props {
     onUnlockPremiumPress: () => void;
 }
 
-export const MemberDetailSheet = forwardRef<BottomSheet, Props>(
-    ({ member, onAddPlacePress, onGetDirectionsPress, onUnlockPremiumPress }, ref) => {
+export const MemberDetailSheet = ({ member, onAddPlacePress, onGetDirectionsPress, onUnlockPremiumPress }: Props) => {
+    return (
+        <ScrollView className="flex-1 bg-[#090d16]" contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+            <View className="px-6 pt-6">
 
-        const snapPoints = useMemo(() => ['22%', '55%'], []);
-
-        return (
-            <BottomSheet
-                ref={ref}
-                index={0}
-                snapPoints={snapPoints}
-                handleIndicatorStyle={{ backgroundColor: '#E5E7EB', width: 40 }}
-                backgroundStyle={{ borderRadius: 32, shadowColor: "#000", shadowOffset: { width: 0, height: -2 }, shadowOpacity: 0.1, shadowRadius: 10, elevation: 5 }}
-            >
-                <BottomSheetScrollView >
-                    <View className="px-6 pt-2">
-
-                        {/* Header Info */}
-                        <View className="flex-row items-center mb-8">
-                            <View style={{ backgroundColor: member.color }} className="w-16 h-16 rounded-full items-center justify-center border-4 border-white shadow-sm mr-4">
-                                <Text className="text-white text-2xl font-bold">{member.initial}</Text>
-                            </View>
-                            <View className="items-start">
-                                <Text className="text-2xl font-bold text-black">{member.name}</Text>
-                                <Text className="text-gray-600 text-base">{member.location}</Text>
-                                <View className="flex-row items-center gap-2 mt-1 mb-2">
-                                    <Ionicons name={member.battery > 20 ? "battery-half" : "battery-dead"} size={16} color="black" />
-                                    <Text className="font-bold">{member.battery}%</Text>
-                                    <Text className="text-gray-400">• {member.time}</Text>
-                                </View>
-
-                                <TouchableOpacity
-                                    onPress={onAddPlacePress}
-                                    className="bg-[#7762F0] px-4 py-2 rounded-full"
-                                >
-                                    <Text className="text-white font-bold text-sm">Add to Places</Text>
-                                </TouchableOpacity>
+                {/* Header Info */}
+                <View className="flex-col mb-6 bg-[#111927] p-5 rounded-3xl border border-[#24354f]">
+                    <View className="flex-row items-center mb-4">
+                        <View style={{ backgroundColor: member.color }} className="w-16 h-16 rounded-2xl items-center justify-center border border-[#2b3d54] mr-4">
+                            <Text className="text-white text-2xl font-bold">{member.initial}</Text>
+                        </View>
+                        <View className="items-start flex-1">
+                            <Text className="text-xl font-bold text-white mb-0.5">{member.name}</Text>
+                            <Text className="text-slate-400 text-sm mb-2">{member.location}</Text>
+                            <View className="flex-row items-center gap-2">
+                                <Ionicons name={member.battery > 20 ? "battery-half" : "battery-dead"} size={14} color="#a78bfa" />
+                                <Text className="font-semibold text-indigo-300 text-xs">{member.battery}%</Text>
+                                <Text className="text-slate-500 text-xs">• {member.time}</Text>
                             </View>
                         </View>
-
-                        {/* Get Directions Button */}
-                        <TouchableOpacity
-                            onPress={onGetDirectionsPress}
-                            className="flex-row items-center bg-white border border-gray-100 p-4 rounded-2xl shadow-sm mb-8"
-                        >
-                            <View className="w-12 h-12 bg-gray-100 rounded-full items-center justify-center mr-4">
-                                <FontAwesome5 name="directions" size={20} color="gray" />
-                            </View>
-                            <View>
-                                <Text className="font-bold text-lg">Get Directions</Text>
-                                <Text className="text-gray-500">13 min drive to {member.name}</Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        {/* Weekly Driver Report */}
-                        <Text className="text-center font-bold text-gray-800 mb-4">Weekly Driver Report</Text>
-                        <View className="flex-row justify-between mb-2">
-                            {['Total Miles', 'Top Speed', 'Total Drives'].map((title, i) => (
-                                <View key={i} className="w-[30%] h-24 bg-[#7762F0] rounded-xl overflow-hidden relative p-2 items-center justify-center">
-                                    <LinearGradient colors={['rgba(255,255,255,0.2)', 'transparent']} className="absolute inset-0" />
-                                    <View className="absolute top-1 right-1 bg-white/30 rounded-full p-1">
-                                        <Ionicons name="lock-closed" size={10} color="white" />
-                                    </View>
-                                    <View className="w-full h-8 bg-white/20 rounded mb-1 blur-sm" />
-                                    <Text className="text-white text-[10px] font-bold text-center mt-auto">{title}</Text>
-                                </View>
-                            ))}
-                        </View>
-                        <TouchableOpacity className="mb-10">
-                            <Text className="text-[#7762F0] text-center text-sm">View {member.name}'s driving summary</Text>
-                        </TouchableOpacity>
-
-                        {/* Location History Card */}
-                        <LinearGradient
-                            colors={['#7762F0', '#5B4BC4']}
-                            style={{
-                                padding: 24,
-                                overflow: 'hidden',
-                                height: 256,
-                                justifyContent: 'flex-end',
-                                marginHorizontal: -24,
-                            }}
-                        >
-                            <View className="absolute top-4 left-4 right-4 h-32 opacity-30">
-                                <View className="absolute top-2 left-2 w-full h-1 bg-white/50 rotate-12" />
-                                <View className="absolute top-10 left-10 w-24 h-1 bg-white/50 -rotate-45" />
-                                <View className="absolute top-8 right-8 w-10 h-10 rounded-full bg-white border-2 border-white items-center justify-center overflow-hidden">
-                                    <Image source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80' }} className="w-full h-full" />
-                                </View>
-                            </View>
-                        
-                            <Text className="text-white font-bold text-lg text-center mb-2">Get 30 days of Location History</Text>
-                            <Text className="text-white/70 text-center text-xs px-2 mb-4">Upgrade to see your Circle's past trips, drives, and more from the past 30 days.</Text>
-                            <TouchableOpacity
-                                className="bg-[#FFE6BC] w-full py-3 rounded-full items-center"
-                                onPress={onUnlockPremiumPress}
-                            >
-                                <Text className="text-[#4A3B9F] font-bold">Unlock Now</Text>
-                            </TouchableOpacity>
-                        </LinearGradient>
-
                     </View>
-                </BottomSheetScrollView>
-            </BottomSheet>
-        );
-    }
-);
+
+                    <TouchableOpacity
+                        onPress={onAddPlacePress}
+                        className="bg-indigo-500/10 border border-indigo-500/20 px-4 py-3 rounded-full w-full items-center"
+                    >
+                        <Text className="text-indigo-400 font-bold text-sm">Add to places</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {/* Get Directions Button */}
+                <TouchableOpacity
+                    onPress={onGetDirectionsPress}
+                    className="flex-row items-center bg-[#111927] border border-[#24354f] p-4 rounded-3xl mb-8"
+                    activeOpacity={0.7}
+                >
+                    <View className="w-12 h-12 bg-[#162235] border border-[#2b3d54] rounded-2xl items-center justify-center mr-4">
+                        <FontAwesome5 name="directions" size={20} color="#34d399" />
+                    </View>
+                    <View>
+                        <Text className="font-bold text-white text-base">Get directions</Text>
+                        <Text className="text-slate-400 text-xs mt-0.5">13 min drive to {member.name}</Text>
+                    </View>
+                </TouchableOpacity>
+
+                {/* Weekly Driver Report */}
+                <Text className="text-center font-bold text-white mb-4">Weekly driver report</Text>
+                <View className="flex-row justify-between mb-2">
+                    {['Total miles', 'Top speed', 'Total drives'].map((title, i) => (
+                        <View key={i} className="w-[31%] h-24 bg-[#111927] border border-[#24354f] rounded-2xl overflow-hidden relative p-2 items-center justify-center">
+                            <View className="absolute top-1 right-1 bg-[#162235] border border-[#2b3d54] rounded-full p-1">
+                                <Ionicons name="lock-closed" size={10} color="#94a3b8" />
+                            </View>
+                            <View className="w-full h-8 bg-[#162235] rounded border border-[#2b3d54] mb-1 opacity-50" />
+                            <Text className="text-slate-400 text-[10px] font-semibold text-center mt-auto">{title}</Text>
+                        </View>
+                    ))}
+                </View>
+                <TouchableOpacity className="mb-10 py-2">
+                    <Text className="text-indigo-400 text-center text-sm font-semibold">View driving summary</Text>
+                </TouchableOpacity>
+
+                {/* Location History Card */}
+                <View className="bg-[#111927] border border-indigo-500/30 rounded-3xl overflow-hidden relative h-64 justify-end">
+                    <LinearGradient
+                        colors={['rgba(99,102,241,0.1)', 'rgba(99,102,241,0.05)']}
+                        className="absolute inset-0"
+                    />
+                    <View className="absolute top-4 left-4 right-4 h-32 opacity-30">
+                        <View className="absolute top-2 left-2 w-full h-1 bg-indigo-500/50 rotate-12" />
+                        <View className="absolute top-10 left-10 w-24 h-1 bg-indigo-500/50 -rotate-45" />
+                        <View className="absolute top-8 right-8 w-12 h-12 rounded-full border border-indigo-500/50 items-center justify-center overflow-hidden">
+                            <Image source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80' }} className="w-full h-full opacity-50" />
+                        </View>
+                    </View>
+                
+                    <View className="p-6">
+                        <Text className="text-white font-bold text-lg text-center mb-2">30 days of location history</Text>
+                        <Text className="text-slate-400 text-center text-xs px-2 mb-6 leading-5">
+                            Upgrade to see your circle's past trips, drives, and more from the past month.
+                        </Text>
+                        <TouchableOpacity
+                            className="bg-indigo-500/20 border border-indigo-500/30 w-full py-3.5 rounded-full items-center"
+                            onPress={onUnlockPremiumPress}
+                        >
+                            <Text className="text-indigo-300 font-bold">Unlock premium</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+            </View>
+        </ScrollView>
+    );
+}

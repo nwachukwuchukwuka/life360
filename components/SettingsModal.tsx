@@ -30,231 +30,252 @@ export const SettingsModal = ({ visible, onClose }: Props) => {
     };
 
     const MenuRow = ({ icon, title, onPress, isDestructive = false }: any) => (
-        <TouchableOpacity onPress={onPress} className="flex-row items-center py-4 border-b border-gray-100 bg-white px-4">
+        <TouchableOpacity onPress={onPress} className="flex-row items-center py-4  bg-[#0b111e] px-4" activeOpacity={0.7}>
             {icon && <View className="w-8 mr-2 items-center">{icon}</View>}
-            <Text className={`flex-1 text-base font-bold ${isDestructive ? 'text-black' : 'text-black'}`}>{title}</Text>
-            {!isDestructive && <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />}
-            {isDestructive && <Ionicons name="log-out-outline" size={20} color="#C7C7CC" />}
+            <Text className={`flex-1 text-base font-semibold ${isDestructive ? 'text-rose-400' : 'text-white'}`}>{title}</Text>
+            {!isDestructive && <Ionicons name="chevron-forward" size={18} color="#64748b" />}
         </TouchableOpacity>
     );
 
+    const SectionHeader = ({ title }: { title: string }) => (
+        <Text className="px-4 py-3 text-white font-semibold text-lg mt-2">{title}</Text>
+    );
+
     const renderMenu = () => (
-        <ScrollView className="bg-gray-50 flex-1">
-            <Text className="px-4 py-3 text-gray-400 font-bold text-xs uppercase">Mobbin settings</Text>
-            <MenuRow icon={<Ionicons name="notifications" size={20} color="gray" />} title="Smart Notifications" onPress={() => navigateTo('smart_notifications')} />
-            <MenuRow icon={<Ionicons name="people-circle" size={20} color="gray" />} title="Circle Management" onPress={() => navigateTo('circle_management')} />
-            <MenuRow icon={<Ionicons name="navigate" size={20} color="gray" />} title="Location Sharing" onPress={() => navigateTo('location_sharing')} />
+        <ScrollView className="bg-[#090d16] flex-1">
+            <SectionHeader title="Mobbin settings" />
+            <View className="bg-[#0b111e]">
+                <MenuRow icon={<Ionicons name="notifications" size={20} color="#a78bfa" />} title="Smart notifications" onPress={() => navigateTo('smart_notifications')} />
+                <MenuRow icon={<Ionicons name="people-circle" size={20} color="#a78bfa" />} title="Circle management" onPress={() => navigateTo('circle_management')} />
+                <MenuRow icon={<Ionicons name="navigate" size={20} color="#a78bfa" />} title="Location sharing" onPress={() => navigateTo('location_sharing')} />
+            </View>
 
-            <Text className="px-4 py-3 text-gray-400 font-bold text-xs uppercase mt-4">Universal settings</Text>
-            <MenuRow icon={<Ionicons name="person" size={20} color="gray" />} title="Account" onPress={() => navigateTo('account')} />
-            <MenuRow icon={<Ionicons name="car" size={20} color="gray" />} title="Drive Detection" onPress={() => navigateTo('drive_detection')} />
-            <MenuRow icon={<Ionicons name="key" size={20} color="gray" />} title="Privacy & Security" onPress={() => navigateTo('privacy')} />
-            <MenuRow icon={<Ionicons name="help-circle" size={20} color="gray" />} title="Support" onPress={() => navigateTo('support')} />
+            <SectionHeader title="Universal settings" />
+            <View className="bg-[#0b111e]">
+                <MenuRow icon={<Ionicons name="person" size={20} color="#a78bfa" />} title="Account" onPress={() => navigateTo('account')} />
+                <MenuRow icon={<Ionicons name="car" size={20} color="#a78bfa" />} title="Drive detection" onPress={() => navigateTo('drive_detection')} />
+                <MenuRow icon={<Ionicons name="key" size={20} color="#a78bfa" />} title="Privacy & security" onPress={() => navigateTo('privacy')} />
+                <MenuRow icon={<Ionicons name="help-circle" size={20} color="#a78bfa" />} title="Support" onPress={() => navigateTo('support')} />
+            </View>
 
-            <TouchableOpacity className="flex-row items-center py-4 border-b border-gray-100 bg-white px-4 mt-6">
-                <View className="w-8 mr-2 items-center">
-                    <Ionicons name="log-out-outline" size={20} color="gray" />
-                </View>
-                <Text className="flex-1 text-base font-bold">Log Out</Text>
-            </TouchableOpacity>
+            <View className="mt-6 ">
+                <MenuRow icon={<Ionicons name="log-out-outline" size={20} color="#fb7185" />} title="Log out" onPress={() => { }} isDestructive />
+            </View>
 
-            <Text className="text-center text-gray-300 text-xs mt-8 mb-10">Version 21.12.0 build 376 21.12.20.K</Text>
+            <Text className="text-center text-slate-500 text-xs mt-8 mb-10">Version 21.12.0 build 376</Text>
         </ScrollView>
     );
 
     const renderSmartNotifications = () => (
-        <ScrollView className="bg-gray-50 flex-1">
-            <View className="bg-white p-4 m-4 rounded-xl items-center shadow-sm">
+        <ScrollView className="bg-[#090d16] flex-1">
+            <View className="bg-[#111927] p-5 m-4 rounded-3xl items-center border border-[#24354f]">
                 <View className="flex-row items-center mb-4">
-                    <View className="w-12 h-12 bg-red-100 rounded-full items-center justify-center mr-4">
-                        <Ionicons name="battery-dead" size={24} color="#FF5F5F" />
+                    <View className="w-12 h-12 bg-rose-500/10 rounded-2xl items-center justify-center mr-4 border border-rose-500/20">
+                        <Ionicons name="battery-dead" size={24} color="#f43f5e" />
                     </View>
                     <View className="flex-1">
-                        <Text className="font-bold text-base mb-1">Low battery notifications</Text>
-                        <Text className="text-gray-500 text-xs">Receive notifications when a member's phone battery drops below 10%.</Text>
+                        <Text className="font-bold text-white text-base mb-1">Low battery alerts</Text>
+                        <Text className="text-slate-400 text-xs leading-5">Receive notifications when a member's phone battery drops below 10%.</Text>
                     </View>
-                </View>
-                <View className="flex-row gap-1">
-                    <View className="w-1.5 h-1.5 rounded-full bg-[#7762F0]" />
-                    <View className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-                    <View className="w-1.5 h-1.5 rounded-full bg-gray-300" />
                 </View>
             </View>
 
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs">Low battery notifications</Text>
-            <View className="bg-white px-4 py-3 flex-row items-center justify-between border-b border-gray-100">
+            <SectionHeader title="Battery notifications" />
+            <View className="bg-[#0b111e] px-4 py-3 flex-row items-center justify-between">
                 <View className="flex-row items-center">
-                    <View className="w-8 h-8 rounded-full bg-[#FF885B] items-center justify-center mr-3">
-                        <Text className="text-white font-bold text-xs">J</Text>
+                    <View className="w-8 h-8 rounded-full bg-indigo-500/20 items-center justify-center mr-3 border border-indigo-500/30">
+                        <Text className="text-indigo-300 font-bold text-xs">J</Text>
                     </View>
-                    <Text className="font-bold text-base">James</Text>
+                    <Text className="font-bold text-white text-base">James</Text>
                 </View>
-                <Switch value={true} trackColor={{ true: '#7762F0' }} />
+                <Switch value={true} trackColor={{ true: '#6366f1', false: '#334155' }} thumbColor="#ffffff" />
             </View>
 
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs mt-4">Safe drive notifications</Text>
-            <View className="bg-white px-4 py-3 flex-row items-center justify-between border-b border-gray-100">
+            <SectionHeader title="Safe drive notifications" />
+            <View className="bg-[#0b111e] px-4 py-3 flex-row items-center justify-between">
                 <View className="flex-row items-center">
-                    <View className="w-8 h-8 rounded-full bg-[#FF885B] items-center justify-center mr-3">
-                        <Text className="text-white font-bold text-xs">J</Text>
+                    <View className="w-8 h-8 rounded-full bg-indigo-500/20 items-center justify-center mr-3 border border-indigo-500/30">
+                        <Text className="text-indigo-300 font-bold text-xs">J</Text>
                     </View>
-                    <Text className="font-bold text-base">James</Text>
+                    <Text className="font-bold text-white text-base">James</Text>
                 </View>
-                <Switch value={true} trackColor={{ true: '#7762F0' }} />
+                <Switch value={true} trackColor={{ true: '#6366f1', false: '#334155' }} thumbColor="#ffffff" />
             </View>
         </ScrollView>
     );
 
     const renderCircleManagement = () => (
-        <ScrollView className="bg-gray-50 flex-1">
-            <View className="bg-white p-4 m-4 rounded-xl flex-row items-center shadow-sm">
-                <Image source={{ uri: 'https://img.freepik.com/free-vector/team-goals-concept-illustration_114360-5163.jpg' }} className="w-12 h-12 rounded-full mr-4" />
+        <ScrollView className="bg-[#090d16] flex-1">
+            <View className="bg-[#111927] p-5 m-4 rounded-3xl flex-row items-center border border-[#24354f]">
+                <View className="w-12 h-12 bg-indigo-500/10 rounded-2xl items-center justify-center mr-4 border border-indigo-500/20">
+                    <Ionicons name="people" size={24} color="#818cf8" />
+                </View>
                 <View className="flex-1">
-                    <Text className="font-bold text-base">Circle management</Text>
-                    <Text className="text-gray-500 text-xs">Changes you make here apply only to the current selected Circle.</Text>
+                    <Text className="font-bold text-white text-base mb-1">Circle management</Text>
+                    <Text className="text-slate-400 text-xs leading-5">Changes you make here apply only to the current selected Circle.</Text>
                 </View>
             </View>
 
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs">Circle details</Text>
-            <MenuRow title="Edit Circle Name" onPress={() => { }} />
-
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs mt-4">Circle management</Text>
-            <View className="bg-white px-4 py-4 flex-row justify-between border-b border-gray-100">
-                <Text className="font-bold text-base">My Role</Text>
-                <Text className="text-gray-500">Dad</Text>
+            <SectionHeader title="Circle details" />
+            <View className="bg-[#0b111e]">
+                <MenuRow title="Edit circle name" onPress={() => { }} />
             </View>
-            <MenuRow title="Change Admin Status" onPress={() => navigateTo('admin_status')} />
-            <MenuRow title="Add Circle Members" onPress={() => { }} />
-            <MenuRow title="Delete Circle Members" onPress={() => { }} />
-            <MenuRow title="Set Bubbles access" onPress={() => { }} />
-            <MenuRow title="Leave Circle" onPress={() => { }} />
+
+            <SectionHeader title="Management" />
+            <View className="bg-[#0b111e] px-4 py-4 flex-row justify-between border-t border-[#1d273a]">
+                <Text className="font-semibold text-white text-base">My role</Text>
+                <Text className="text-indigo-400 font-medium">Dad</Text>
+            </View>
+            <View className="bg-[#0b111e] border-b border-[#1d273a]">
+                <MenuRow title="Change admin status" onPress={() => navigateTo('admin_status')} />
+                <MenuRow title="Add circle members" onPress={() => { }} />
+                <MenuRow title="Delete circle members" onPress={() => { }} />
+                <MenuRow title="Set bubbles access" onPress={() => { }} />
+                <MenuRow title="Leave circle" onPress={() => { }} isDestructive />
+            </View>
         </ScrollView>
     );
 
     const renderLocationSharing = () => (
-        <ScrollView className="bg-gray-50 flex-1">
-            <View className="bg-white p-4 m-4 rounded-xl flex-row items-center shadow-sm">
-                <Image source={{ uri: 'https://img.freepik.com/free-vector/location-search-concept-illustration_114360-14.jpg' }} className="w-12 h-12 rounded-full mr-4" resizeMode="contain" />
+        <ScrollView className="bg-[#090d16] flex-1">
+            <View className="bg-[#111927] p-5 m-4 rounded-3xl flex-row items-center border border-[#24354f]">
+                <View className="w-12 h-12 bg-emerald-500/10 rounded-2xl items-center justify-center mr-4 border border-emerald-500/20">
+                    <Ionicons name="location" size={24} color="#34d399" />
+                </View>
                 <View className="flex-1">
-                    <Text className="font-bold text-base">Device permissions</Text>
-                    <Text className="text-gray-500 text-xs">Life360 requires location permissions to work.</Text>
+                    <Text className="font-bold text-white text-base mb-1">Device permissions</Text>
+                    <Text className="text-slate-400 text-xs leading-5">Life360 requires location permissions to work effectively.</Text>
                 </View>
             </View>
 
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs">Your location sharing</Text>
-            <View className="bg-white px-4 py-3 flex-row items-center justify-between border-b border-gray-100">
+            <SectionHeader title="Your location sharing" />
+            <View className="bg-[#0b111e] px-4 py-3 flex-row items-center justify-between">
                 <View className="flex-row items-center">
-                    <Image source={{ uri: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80' }} className="w-10 h-10 rounded-full mr-3" />
-                    <Text className="font-bold text-base">Mobbin</Text>
+                    <Image source={{ uri: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80' }} className="w-10 h-10 rounded-full mr-3 border border-[#24354f]" />
+                    <Text className="font-bold text-white text-base">Mobbin</Text>
                 </View>
-                <Switch value={true} trackColor={{ true: '#7762F0' }} />
+                <Switch value={true} trackColor={{ true: '#6366f1', false: '#334155' }} thumbColor="#ffffff" />
             </View>
 
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs mt-4">Circle status</Text>
-            <View className="bg-white px-4 py-3 flex-row items-center border-b border-gray-100">
-                <View className="w-10 h-10 rounded-full bg-[#FF885B] items-center justify-center mr-3">
-                    <Text className="text-white font-bold">J</Text>
+            <SectionHeader title="Circle status" />
+            <View className="bg-[#0b111e] px-4 py-4 flex-row items-center">
+                <View className="w-10 h-10 rounded-full bg-indigo-500/20 items-center justify-center mr-3 border border-indigo-500/30">
+                    <Text className="text-indigo-300 font-bold">J</Text>
                 </View>
                 <View>
-                    <Text className="font-bold text-base">James</Text>
-                    <Text className="text-gray-500 text-xs">Location sharing on</Text>
+                    <Text className="font-bold text-white text-base mb-0.5">James</Text>
+                    <Text className="text-emerald-400 text-xs font-medium">Location sharing on</Text>
                 </View>
             </View>
         </ScrollView>
     );
 
     const renderAccount = () => (
-        <ScrollView className="bg-gray-50 flex-1">
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs">Profile</Text>
-            <TouchableOpacity className="flex-row items-center py-3 bg-white px-4 border-b border-gray-100">
-                <Image source={{ uri: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80' }} className="w-12 h-12 rounded-full mr-3" />
-                <Text className="font-bold text-lg">Mobbin Design</Text>
+        <ScrollView className="bg-[#090d16] flex-1">
+            <SectionHeader title="Profile" />
+            <TouchableOpacity className="flex-row items-center py-4 bg-[#0b111e] px-4" activeOpacity={0.7}>
+                <Image source={{ uri: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80' }} className="w-14 h-14 rounded-full mr-4 border border-[#24354f]" />
+                <Text className="font-bold text-white text-lg">Mobbin Design</Text>
             </TouchableOpacity>
 
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs mt-4">Account details</Text>
-            <MenuRow title="Edit Phone Number" onPress={() => { }} />
-            <MenuRow title="Edit Email Address" onPress={() => { }} />
-            <MenuRow title="Change Password" onPress={() => { }} />
+            <SectionHeader title="Account details" />
+            <View className="bg-[#0b111e]">
+                <MenuRow title="Edit phone number" onPress={() => { }} />
+                <MenuRow title="Edit email address" onPress={() => { }} />
+                <MenuRow title="Change password" onPress={() => { }} />
+            </View>
 
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs mt-4">Account management</Text>
-            <MenuRow title="Restore Purchases" onPress={() => { }} />
-            <MenuRow title="Delete Account" onPress={() => { }} />
-            <MenuRow title="Send Location Feedback" onPress={() => { }} />
+            <SectionHeader title="Account management" />
+            <View className="bg-[#0b111e]">
+                <MenuRow title="Restore purchases" onPress={() => { }} />
+                <MenuRow title="Send location feedback" onPress={() => { }} />
+                <MenuRow title="Delete account" onPress={() => { }} isDestructive />
+            </View>
         </ScrollView>
     );
 
     const renderDriveDetection = () => (
-        <ScrollView className="bg-gray-50 flex-1">
-            <View className="bg-white p-4 m-4 rounded-xl flex-row items-center shadow-sm">
-                <View className="w-12 h-12 bg-purple-100 rounded-full items-center justify-center mr-4">
-                    <Ionicons name="car" size={24} color="#7762F0" />
+        <ScrollView className="bg-[#090d16] flex-1">
+            <View className="bg-[#111927] p-5 m-4 rounded-3xl flex-row items-center border border-[#24354f]">
+                <View className="w-12 h-12 bg-amber-500/10 rounded-2xl items-center justify-center mr-4 border border-amber-500/20">
+                    <Ionicons name="car" size={24} color="#fbbf24" />
                 </View>
                 <View className="flex-1">
-                    <Text className="font-bold text-base">Drive detection</Text>
-                    <Text className="text-gray-500 text-xs">This must be turned on to view real-time speed.</Text>
+                    <Text className="font-bold text-white text-base mb-1">Drive detection</Text>
+                    <Text className="text-slate-400 text-xs leading-5">This must be turned on to view real-time speed.</Text>
                 </View>
             </View>
 
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs">Drive detection</Text>
-            <View className="bg-white px-4 py-3 flex-row items-center justify-between border-b border-gray-100">
-                <Text className="font-bold text-base">Drive Detection ON</Text>
-                <Switch value={true} trackColor={{ true: '#7762F0' }} />
+            <SectionHeader title="Drive detection settings" />
+            <View className="bg-[#0b111e] px-4 py-4 flex-row items-center justify-between">
+                <Text className="font-bold text-white text-base">Drive detection on</Text>
+                <Switch value={true} trackColor={{ true: '#6366f1', false: '#334155' }} thumbColor="#ffffff" />
             </View>
-            <Text className="px-4 mt-2 text-gray-500 text-xs leading-5">
-                Each Circle member must enable this feature for themselves.
+            <Text className="px-4 mt-3 text-slate-500 text-xs leading-5">
+                Each circle member must enable this feature for themselves.
             </Text>
         </ScrollView>
     );
 
     const renderPrivacy = () => (
-        <ScrollView className="bg-gray-50 flex-1">
-            <View className="bg-white p-4 m-4 rounded-xl flex-row items-center shadow-sm">
-                <Image source={{ uri: 'https://img.freepik.com/free-vector/security-concept-illustration_114360-1533.jpg' }} className="w-12 h-12 rounded-full mr-4" resizeMode="contain" />
+        <ScrollView className="bg-[#090d16] flex-1">
+            <View className="bg-[#111927] p-5 m-4 rounded-3xl flex-row items-center border border-[#24354f]">
+                <View className="w-12 h-12 bg-indigo-500/10 rounded-2xl items-center justify-center mr-4 border border-indigo-500/20">
+                    <Ionicons name="shield-checkmark" size={24} color="#818cf8" />
+                </View>
                 <View className="flex-1">
-                    <Text className="font-bold text-base">Your privacy is our priority</Text>
-                    <Text className="text-gray-500 text-xs">We believe you should control how we use your data.</Text>
+                    <Text className="font-bold text-white text-base mb-1">Your privacy is our priority</Text>
+                    <Text className="text-slate-400 text-xs leading-5">We believe you should control how we use your data.</Text>
                 </View>
             </View>
 
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs">Your privacy & security</Text>
-            <MenuRow title="Emergency Data Access" onPress={() => { }} />
-            <MenuRow title="Offers in Life360" onPress={() => { }} />
-            <MenuRow title="Driving Services" onPress={() => { }} />
-            <MenuRow title="Data Encryption" onPress={() => { }} />
-            <MenuRow title="Do Not Sell My Personal Information" onPress={() => { }} />
-            <MenuRow title="Privacy Policy" onPress={() => { }} />
+            <SectionHeader title="Privacy & security" />
+            <View className="bg-[#0b111e]">
+                <MenuRow title="Emergency data access" onPress={() => { }} />
+                <MenuRow title="Offers in Life360" onPress={() => { }} />
+                <MenuRow title="Driving services" onPress={() => { }} />
+                <MenuRow title="Data encryption" onPress={() => { }} />
+                <MenuRow title="Do not sell my personal info" onPress={() => { }} />
+                <MenuRow title="Privacy policy" onPress={() => { }} />
+            </View>
         </ScrollView>
     );
 
     const renderSupport = () => (
-        <View className="flex-1 bg-gray-50">
-            <View className="bg-white m-4 rounded-lg p-2 flex-row items-center">
-                <Ionicons name="search" size={20} color="gray" className="mr-2" />
-                <TextInput placeholder="Search" className="flex-1 text-base" />
+        <View className="flex-1 bg-[#090d16]">
+            <View className="bg-[#111927] m-4 rounded-2xl p-3 flex-row items-center border border-[#24354f]">
+                <Ionicons name="search" size={20} color="#64748b" className="mr-2" />
+                <TextInput placeholder="Search" placeholderTextColor="#64748b" className="flex-1 text-base text-white" />
             </View>
-            <ScrollView className="px-4">
-                <Text className="font-bold text-base mb-4">Popular Questions</Text>
-                <Text className="text-gray-600 mb-4 text-sm">Updates, phone settings, location accuracy tips...</Text>
-                <Text className="text-gray-400 mb-2">UPDATE! Life360 current status</Text>
-                <View className="h-[1px] bg-gray-200 mb-2" />
-                <Text className="text-gray-400 mb-2">How do I improve an inaccurate location?</Text>
-                <View className="h-[1px] bg-gray-200 mb-2" />
-                <Text className="text-[#7762F0] font-bold mt-2">See all 23 articles</Text>
+            <ScrollView className="px-4 pt-2">
+                <Text className="font-bold text-white text-base mb-4">Popular questions</Text>
+                <Text className="text-slate-400 mb-6 text-sm leading-5">Updates, phone settings, location accuracy tips...</Text>
+
+                <TouchableOpacity className="py-3 border-b border-[#1d273a]">
+                    <Text className="text-indigo-300 font-medium">Update! Life360 current status</Text>
+                </TouchableOpacity>
+                <TouchableOpacity className="py-3 border-b border-[#1d273a]">
+                    <Text className="text-slate-300 font-medium">How do I improve an inaccurate location?</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity className="py-4">
+                    <Text className="text-indigo-400 font-bold">See all 23 articles</Text>
+                </TouchableOpacity>
             </ScrollView>
         </View>
     );
 
     const renderAdminStatus = () => (
-        <View className="flex-1 bg-white">
-            <Text className="px-4 py-2 text-gray-400 font-bold text-xs bg-gray-50">Admin status</Text>
-            <View className="px-4 py-3 flex-row items-center justify-between border-b border-gray-100">
+        <View className="flex-1 bg-[#090d16]">
+            <SectionHeader title="Admin status" />
+            <View className="px-4 py-4 flex-row items-center justify-between bg-[#0b111e]">
                 <View className="flex-row items-center">
-                    <View className="w-8 h-8 rounded-full bg-[#FF885B] items-center justify-center mr-3">
-                        <Text className="text-white font-bold text-xs">J</Text>
+                    <View className="w-8 h-8 rounded-full bg-indigo-500/20 items-center justify-center mr-3 border border-indigo-500/30">
+                        <Text className="text-indigo-300 font-bold text-xs">J</Text>
                     </View>
-                    <Text className="font-bold text-base">James</Text>
+                    <Text className="font-bold text-white text-base">James</Text>
                 </View>
-                <Switch value={true} trackColor={{ true: '#7762F0' }} />
+                <Switch value={true} trackColor={{ true: '#6366f1', false: '#334155' }} thumbColor="#ffffff" />
             </View>
         </View>
     );
@@ -277,37 +298,41 @@ export const SettingsModal = ({ visible, onClose }: Props) => {
     const getTitle = () => {
         switch (currentView) {
             case 'menu': return 'Settings';
-            case 'smart_notifications': return 'Smart Notifications';
-            case 'circle_management': return 'Mobbin Circle';
-            case 'location_sharing': return 'Location Sharing';
+            case 'smart_notifications': return 'Smart notifications';
+            case 'circle_management': return 'Mobbin circle';
+            case 'location_sharing': return 'Location sharing';
             case 'account': return 'Account';
-            case 'drive_detection': return 'Drive Detection';
-            case 'privacy': return 'Privacy & Security';
+            case 'drive_detection': return 'Drive detection';
+            case 'privacy': return 'Privacy & security';
             case 'support': return 'Help';
-            case 'admin_status': return 'Change Admin Status';
+            case 'admin_status': return 'Change admin status';
             default: return 'Settings';
         }
     };
 
     return (
         <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">
-            <SafeAreaView className="flex-1 bg-white">
+            <SafeAreaView className="flex-1 bg-[#090d16]">
 
                 {/* Header */}
-                <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-200">
-                    <TouchableOpacity onPress={goBack}>
+                <View className="flex-row items-center justify-between px-4 py-4 border-b border-[#1d273a] bg-[#0b111e]">
+                    <TouchableOpacity onPress={goBack} className="w-10 h-10 rounded-full bg-[#162235] items-center justify-center border border-[#2b3d54]">
                         {currentView === 'menu' ? (
-                            <Ionicons name="close" size={28} color="black" />
+                            <Ionicons name="close" size={20} color="#94a3b8" />
                         ) : (
-                            <Ionicons name="chevron-back" size={28} color="black" />
+                            <Ionicons name="chevron-back" size={20} color="#94a3b8" />
                         )}
                     </TouchableOpacity>
 
-                    <Text className="font-bold text-lg">{getTitle()}</Text>
+                    <Text className="font-bold text-white text-lg">{getTitle()}</Text>
 
-                    <View className="w-7">
-                        {currentView === 'account' && <Text className="text-[#7762F0] font-bold">SAVE</Text>}
-                        {currentView === 'support' && <Ionicons name="create-outline" size={24} color="#7762F0" />}
+                    <View className="w-10 h-10 items-center justify-center">
+                        {currentView === 'account' && <Text className="text-indigo-400 font-bold">Save</Text>}
+                        {currentView === 'support' && (
+                            <View className="w-10 h-10 rounded-full bg-[#162235] items-center justify-center border border-[#2b3d54]">
+                                <Ionicons name="create" size={18} color="#a78bfa" />
+                            </View>
+                        )}
                     </View>
                 </View>
 

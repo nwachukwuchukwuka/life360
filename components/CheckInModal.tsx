@@ -1,4 +1,3 @@
-import { COLORS } from '@/constants';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { FlatList, Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -34,51 +33,76 @@ export const CheckInModal = ({ visible, onClose, onCheckIn }: Props) => {
             presentationStyle="pageSheet"
             onRequestClose={onClose}
         >
-            <SafeAreaView className="flex-1 bg-white">
-                {/* Header */}
-                <View className="flex-row items-center justify-between px-4 py-4 border-b border-gray-100">
-                    <TouchableOpacity onPress={onClose}>
-                        <Ionicons name="close" size={28} color={COLORS.primary} />
+            <SafeAreaView className="flex-1 bg-[#090d16]">
+                {/* Header Section */}
+                <View className="px-5 py-4 border-b border-[#1d273a] bg-[#0b111e] flex-row items-center justify-between">
+                    <View className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 items-center justify-center">
+                        <Ionicons name="location" size={20} color="#34d399" />
+                    </View>
+                    <Text className="text-lg font-bold text-white">Check in</Text>
+                    <TouchableOpacity
+                        onPress={onClose}
+                        className="w-10 h-10 rounded-full bg-[#162235] border border-[#2b3d54] items-center justify-center"
+                    >
+                        <Ionicons name="close" size={20} color="#94a3b8" />
                     </TouchableOpacity>
-                    <Text className="text-lg font-medium text-black">Check In</Text>
-                    <View className="w-7" />
                 </View>
 
-                {/* Search Bar */}
-                <View className="px-4 py-4">
-                    <View className="flex-row items-center bg-gray-100 rounded-lg px-3 h-12">
-                        <Ionicons name="location-outline" size={20} color="#9CA3AF" />
+                {/* Subtext */}
+                <View className="px-5 pt-6 pb-2 items-center">
+                    <Text className="text-2xl font-bold text-white mb-2 text-center">Where are you?</Text>
+                    <Text className="text-slate-400 text-sm text-center px-4 leading-5">
+                        Broadcast your current location so your circle knows you are safe.
+                    </Text>
+                </View>
+
+                {/* Search Input Card */}
+                <View className="px-5 py-5">
+                    <View className="flex-row items-center bg-[#111927] border border-[#24354f] rounded-2xl px-4 h-14 relative overflow-hidden">
+                        <View className="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500" />
+                        <Ionicons name="search" size={20} color="#64748b" className="ml-1" />
                         <TextInput
-                            placeholder="Search address or location name"
-                            className="flex-1 ml-2 text-base font-medium text-black"
-                            placeholderTextColor="#9CA3AF"
+                            placeholder="Find a specific place..."
+                            className="flex-1 ml-3 text-base font-medium text-white"
+                            placeholderTextColor="#475569"
                         />
                     </View>
                 </View>
 
                 {/* List Header */}
-                <View className="bg-gray-50 px-4 py-2">
-                    <Text className="text-gray-400 font-bold text-xs uppercase">Nearby locations</Text>
+                <View className="px-6 py-2">
+                    <Text className="text-white font-semibold text-lg">Nearby locations</Text>
                 </View>
 
                 {/* Locations List */}
                 <FlatList
                     data={NEARBY_LOCATIONS}
                     keyExtractor={(item) => item.id}
+                    contentContainerStyle={{ paddingVertical: 8, paddingHorizontal: 20, paddingBottom: 40 }}
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             onPress={() => handleSelect(item.name)}
-                            className="flex-row items-center px-4 py-4 border-b border-gray-100"
+                            className="flex-row items-center bg-[#111927] rounded-3xl mb-3 p-4 relative overflow-hidden"
+                            activeOpacity={0.7}
                         >
-                            <View className="w-10 h-10 rounded-full border border-gray-200 items-center justify-center mr-4">
-                                <Ionicons name="location" size={20} color={COLORS.primary} />
+                            <View className="w-12 h-12 rounded-2xl bg-[#162235] items-center justify-center mr-4 relative">
+                                <Ionicons name="business" size={20} color="#818cf8" />
+                                <View className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#111927] rounded-full items-center justify-center">
+                                    <View className="w-2 h-2 bg-emerald-500 rounded-full" />
+                                </View>
                             </View>
 
-                            <View className="flex-1">
-                                <Text className="text-base font-bold text-black">{item.name}</Text>
+                            <View className="flex-1 pr-2">
+                                <Text className="text-base font-bold text-white mb-0.5" numberOfLines={1}>{item.name}</Text>
                                 {item.sub ? (
-                                    <Text className="text-gray-500 text-sm mt-0.5">{item.sub}</Text>
-                                ) : null}
+                                    <Text className="text-slate-400 text-[11px]" numberOfLines={1}>{item.sub}</Text>
+                                ) : (
+                                    <Text className="text-slate-500 text-[11px] italic">Exact match</Text>
+                                )}
+                            </View>
+
+                            <View className="w-8 h-8 rounded-full bg-[#162235] items-center justify-center">
+                                <Ionicons name="arrow-forward" size={14} color="#a78bfa" />
                             </View>
                         </TouchableOpacity>
                     )}

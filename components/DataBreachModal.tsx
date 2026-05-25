@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { FlatList, Image, Modal, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,12 +8,11 @@ interface Props {
     onClose: () => void;
 }
 
-// Mock Data
 const MEMBERS = [
     { id: 'all', name: 'All', img: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80' }, 
     { id: '1', name: 'Mobbin', img: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80' },
-    { id: '2', name: 'James', img: null, initial: 'J', color: '#7762F0' },
-    { id: '3', name: 'Sarah', img: null, initial: 'S', color: '#333' },
+    { id: '2', name: 'James', img: null, initial: 'J', color: '#6366f1' },
+    { id: '3', name: 'Sarah', img: null, initial: 'S', color: '#10b981' },
 ];
 
 const BREACHES = [
@@ -28,67 +27,95 @@ export const DataBreachModal = ({ visible, onClose }: Props) => {
 
     return (
         <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">
-            <SafeAreaView className="flex-1 bg-white">
+            <SafeAreaView className="flex-1 bg-[#090d16]">
 
                 {/* Header */}
-                <View className="flex-row items-center justify-between px-4 py-2 border-b border-gray-100">
-                    <TouchableOpacity onPress={onClose}>
-                        <Ionicons name="close" size={28} color="black" />
+                <View className="flex-row items-center justify-between px-4 py-4 border-b border-[#1d273a] bg-[#0b111e]">
+                    <TouchableOpacity onPress={onClose} className="w-10 h-10 items-center justify-center rounded-full bg-[#162235]">
+                        <Ionicons name="close" size={20} color="#94a3b8" />
                     </TouchableOpacity>
-                    <Text className="font-bold text-lg">Data Breach Alerts</Text>
-                    <View className="w-7" />
+                    <Text className="font-bold text-white text-lg">Security scans</Text>
+                    <View className="w-10 h-10 items-center justify-center rounded-full bg-indigo-500/10 border border-indigo-500/20">
+                        <Ionicons name="shield-checkmark" size={18} color="#a78bfa" />
+                    </View>
                 </View>
 
                 {/* Member Filter */}
-                <View className="py-6 border-b border-gray-100">
+                <View className="pt-6 pb-2">
                     <FlatList
                         horizontal
                         data={MEMBERS}
                         keyExtractor={item => item.id}
                         showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={{ paddingHorizontal: 20, gap: 20 }}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity onPress={() => setSelectedMember(item.id)} className="items-center">
-                                <View className={`w-14 h-14 rounded-full mb-2 items-center justify-center overflow-hidden ${selectedMember === item.id ? 'border-2 border-[#7762F0]' : ''}`}>
-                                    {item.img ? (
-                                        <Image source={{ uri: item.img }} className="w-full h-full" />
-                                    ) : (
-                                        <View style={{ backgroundColor: item.color }} className="w-full h-full items-center justify-center">
-                                            <Text className="text-white font-bold text-xl">{item.initial}</Text>
-                                        </View>
-                                    )}
-                                </View>
-                                <Text className={`text-xs ${selectedMember === item.id ? 'font-bold text-[#7762F0]' : 'text-gray-500'}`}>{item.name}</Text>
-                                {selectedMember === item.id && <View className="h-1 w-8 bg-[#7762F0] rounded-full mt-2" />}
-                            </TouchableOpacity>
-                        )}
+                        contentContainerStyle={{ paddingHorizontal: 20, gap: 12 }}
+                        renderItem={({ item }) => {
+                            const isSelected = selectedMember === item.id;
+                            return (
+                                <TouchableOpacity 
+                                    onPress={() => setSelectedMember(item.id)} 
+                                    className={`flex-row items-center p-1.5 pr-4 rounded-full border ${isSelected ? 'bg-indigo-600/20 border-indigo-500/40' : 'bg-[#111927] border-[#24354f]'}`}
+                                >
+                                    <View className="w-8 h-8 rounded-full items-center justify-center overflow-hidden mr-3 border border-slate-700/50">
+                                        {item.img ? (
+                                            <Image source={{ uri: item.img }} className="w-full h-full" />
+                                        ) : (
+                                            <View style={{ backgroundColor: item.color }} className="w-full h-full items-center justify-center">
+                                                <Text className="text-white font-bold text-sm">{item.initial}</Text>
+                                            </View>
+                                        )}
+                                    </View>
+                                    <Text className={`font-semibold text-sm ${isSelected ? 'text-indigo-300' : 'text-slate-400'}`}>
+                                        {item.name}
+                                    </Text>
+                                </TouchableOpacity>
+                            )
+                        }}
                     />
+                </View>
+
+                <View className="px-5 pt-4 pb-2">
+                    <Text className="text-white font-bold text-xl mb-1">Detected breaches</Text>
+                    <Text className="text-slate-400 text-xs">Review compromised accounts</Text>
                 </View>
 
                 {/* List */}
                 <FlatList
                     data={BREACHES}
                     keyExtractor={item => item.id}
-                    contentContainerStyle={{ paddingBottom: 100 }}
+                    contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 10, paddingBottom: 120 }}
                     renderItem={({ item }) => (
-                        <TouchableOpacity className="flex-row items-center p-4 border-b border-gray-100">
-                            <Image source={{ uri: item.icon }} className="w-12 h-12 rounded-full mr-4 bg-gray-50" resizeMode="contain" />
-                            <View className="flex-1">
-                                <Text className="font-bold text-base">{item.title}</Text>
-                                <Text className="text-gray-500 text-sm">{item.email}</Text>
-                                <Text className="text-gray-400 text-xs mt-1">{item.date}</Text>
+                        <TouchableOpacity className="bg-[#111927] border border-[#24354f] rounded-3xl p-5 mb-4 flex-row items-center relative overflow-hidden" activeOpacity={0.7}>
+                            <View className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-xl" />
+                            <View className="w-14 h-14 rounded-2xl mr-4 bg-[#162235] items-center justify-center border border-[#2b3d54]">
+                                <Image source={{ uri: item.icon }} className="w-8 h-8 opacity-80" resizeMode="contain" />
                             </View>
-                            <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+                            <View className="flex-1">
+                                <Text className="font-bold text-white text-base mb-1">{item.title}</Text>
+                                <Text className="text-slate-400 text-xs mb-2">{item.email}</Text>
+                                <View className="bg-[#162235] self-start px-2 py-1 rounded-md border border-[#2b3d54]">
+                                    <Text className="text-red-400/80 text-[10px] font-semibold">{item.date}</Text>
+                                </View>
+                            </View>
+                            <View className="w-8 h-8 rounded-full bg-[#162235] items-center justify-center border border-[#2b3d54]">
+                                <Ionicons name="chevron-forward" size={14} color="#94a3b8" />
+                            </View>
                         </TouchableOpacity>
                     )}
                 />
 
                 {/* Footer Info */}
-                <View className="absolute bottom-0 w-full bg-white border-t border-gray-100 p-6 pb-10">
-                    <Text className="font-bold text-lg mb-2">What are Data Breach Alerts?</Text>
-                    <Text className="text-gray-600 leading-5">
-                        We notify you if we find your family's stolen info on the dark web. <Text className="text-[#7762F0]">Learn more</Text>
-                    </Text>
+                <View className="absolute bottom-0 w-full bg-[#0b111e]/90 border-t border-[#1d273a] px-6 py-5">
+                    <View className="flex-row items-start">
+                        <View className="w-10 h-10 rounded-full bg-indigo-500/20 items-center justify-center mr-4 border border-indigo-500/30">
+                            <MaterialCommunityIcons name="incognito-circle" size={20} color="#a78bfa" />
+                        </View>
+                        <View className="flex-1">
+                            <Text className="font-bold text-white text-sm mb-1">About breach alerts</Text>
+                            <Text className="text-slate-400 text-xs leading-5">
+                                We notify you if we find your family's stolen info on the dark web. <Text className="text-indigo-400 font-semibold">Learn more</Text>
+                            </Text>
+                        </View>
+                    </View>
                 </View>
 
             </SafeAreaView>

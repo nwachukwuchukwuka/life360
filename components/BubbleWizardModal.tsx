@@ -33,17 +33,17 @@ export const BubbleWizardModal = ({ visible, onClose, member, onBubbleCreated }:
 
     return (
         <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">
-            <SafeAreaView className="flex-1 bg-white">
+            <SafeAreaView className="flex-1 bg-[#090d16]">
 
                 {/* Header */}
-                <View className="flex-row items-center justify-between px-4 py-2 border-b border-gray-100">
-                    <TouchableOpacity onPress={onClose}>
-                        <Ionicons name="close" size={28} color="black" />
+                <View className="flex-row items-center justify-between px-4 py-4 border-b border-[#1d273a] bg-[#0b111e]">
+                    <TouchableOpacity onPress={onClose} className="w-10 h-10 rounded-full bg-[#162235] items-center justify-center border border-[#2b3d54]">
+                        <Ionicons name="close" size={20} color="#94a3b8" />
                     </TouchableOpacity>
-                    <Text className="font-bold text-lg">
-                        {step === 0 ? 'Bubbles' : step === 1 ? 'Create a Bubble' : step === 2 ? 'Set Duration' : 'Notify your Circle'}
+                    <Text className="font-bold text-white text-lg">
+                        {step === 0 ? 'Bubbles' : step === 1 ? 'Create a bubble' : step === 2 ? 'Set duration' : 'Notify your circle'}
                     </Text>
-                    <View className="w-7" />
+                    <View className="w-10" />
                 </View>
 
                 {/* Step Switcher */}

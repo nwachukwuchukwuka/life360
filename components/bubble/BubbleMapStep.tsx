@@ -1,4 +1,3 @@
-import { COLORS } from '@/constants';
 import Slider from '@react-native-community/slider';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
@@ -13,9 +12,9 @@ interface Props {
 
 export const BubbleMapStep = ({ member, radius, setRadius, onNext }: Props) => {
     return (
-        <View className="flex-1">
-            <View className="bg-[#7762F0] px-4 py-3">
-                <Text className="text-white text-center font-medium">Use the slider to adjust the size of your Bubble</Text>
+        <View className="flex-1 bg-[#090d16]">
+            <View className="bg-indigo-500/10 border-b border-indigo-500/20 px-4 py-3">
+                <Text className="text-indigo-300 text-center font-medium">Use the slider to adjust the size of your bubble.</Text>
             </View>
             <View className="flex-1 relative">
                 <MapView
@@ -30,27 +29,27 @@ export const BubbleMapStep = ({ member, radius, setRadius, onNext }: Props) => {
                 >
                     <Marker coordinate={member.coordinate}>
                         <View className="items-center justify-center">
-                            <View style={{ width: radius, height: radius, borderRadius: radius / 2 }} className="bg-[#7762F0]/20 border border-[#7762F0] items-center justify-center">
-                                <View className="w-16 h-16 rounded-full border-4 border-white overflow-hidden shadow-lg bg-white items-center justify-center" style={{ backgroundColor: member.color }}>
+                            <View style={{ width: radius, height: radius, borderRadius: radius / 2 }} className="bg-indigo-500/20 border border-indigo-500/50 items-center justify-center">
+                                <View className="w-16 h-16 rounded-3xl border border-[#2b3d54] overflow-hidden items-center justify-center" style={{ backgroundColor: member.color }}>
                                     <Text className="text-white font-bold text-xl">{member.initial}</Text>
                                 </View>
                             </View>
                         </View>
                     </Marker>
                 </MapView>
-                <View className="absolute bottom-0 w-full bg-white px-6 pb-8 pt-4 rounded-t-3xl ">
+                <View className="absolute bottom-0 w-full bg-[#0b111e]/90 border-t border-[#1d273a] px-6 pb-8 pt-6 rounded-t-3xl">
                     <Slider
                         style={{ width: '100%', height: 40 }}
                         minimumValue={100}
                         maximumValue={600}
-                        minimumTrackTintColor="#7762F0"
-                        maximumTrackTintColor="#E5E7EB"
-                        thumbTintColor="#FFFFFF"
+                        minimumTrackTintColor="#818cf8"
+                        maximumTrackTintColor="#1d273a"
+                        thumbTintColor="#ffffff"
                         value={radius}
                         onValueChange={setRadius}
                     />
-                    <TouchableOpacity onPress={onNext} style={{ backgroundColor: COLORS.primary }} className="w-full py-4 rounded-full items-center mt-4">
-                        <Text className="text-white font-bold text-lg">Continue</Text>
+                    <TouchableOpacity onPress={onNext} className="w-full py-4 rounded-full items-center mt-6 bg-indigo-600/20 border border-indigo-500/30">
+                        <Text className="text-indigo-400 font-bold text-lg">Continue</Text>
                     </TouchableOpacity>
                 </View>
             </View>
